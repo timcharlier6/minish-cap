@@ -6,7 +6,7 @@
 #    By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 20:48:27 by csimonne          #+#    #+#              #
-#    Updated: 2026/01/07 16:42:01 by csimonne         ###   ########.fr        #
+#    Updated: 2026/01/08 13:25:04 by csimonne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC = src/main.c src/parsing/tokenisation.c src/parsing/check_syntax.c \
 		src/error.c \
 		helpers/strncmp_hub.c helpers/ft_strlen.c \
 		helpers/ft_space_related.c helpers/strdup_hub.c \
-		helpers/char_search.c helpers/clean_up.c \
+		helpers/char_search.c helpers/clean_up.c helpers/clean_lists.c \
 		helpers/token_type_counter.c helpers/skip_word_or_adjacents.c \
 		helpers/ft_calloc.c helpers/ft_strjoin_m.c \
 		helpers/ft_putstr_fd.c src/exec.c helpers/ft_strjoin.c \

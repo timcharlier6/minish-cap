@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 22:40:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/06 13:51:34 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:25:22 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,71 +18,48 @@ void exit_w_message(void)
 		exit(1);
 }
 
-void free_token_list(t_token **s_list)
+int clean_all_quotes(t_token *list)
 {
-	t_token *temp;
+	t_token *tmp;
+	char    *new_val;
 
-	temp = 0;
-    if (!s_list || !*s_list)
-		return ;
-	while(*s_list)
-	{
-		temp = (*s_list)->next;
-		if ((*s_list)->value)
+	tmp = list;
+	while (tmp)
+    {
+		if ((tmp->type == T_WORD || tmp->type == T_WORD_ADJ) && tmp->quotes != 0)
 		{
-			free((*s_list)->value);
-			(*s_list)->value = NULL;
+			new_val = strdup_max(tmp->value, 1, ft_strlen(tmp->value) - 2);
+			if (!new_val)
+				return (0); // Échec malloc
+			free(tmp->value);
+			tmp->value = new_val;
 		}
-		free(*s_list);
-		*s_list = NULL;
-		*s_list = temp;
+		tmp = tmp->next;
 	}
+	return (1);
 }
 
-void free_redir_list(t_redir **s_list)
+void	free_temp(char **exp, char **whole, char **before_d, char **both)
 {
-	t_redir *temp;
-
-	temp = 0;
-    if (!s_list || !*s_list)
-		return ;
-	while(*s_list)
+	if (*before_d && before_d)
 	{
-		temp = (*s_list)->next;
-		if ((*s_list)->name)
-		{
-			free((*s_list)->name);
-			(*s_list)->name = NULL;
-		}
-		free(*s_list);
-		*s_list = NULL;
-		*s_list = temp;
+		free(*before_d);
+		*before_d = NULL;
 	}
-}
-
-static void free_env_list(t_env **env)
-{
-	t_env *temp;
-
-	temp = 0;
-    if (!env|| !*env)
-		return ;
-	while(*env)
+	if (*exp && exp)
 	{
-		temp = (*env)->next;
-		if ((*env)->key)
-		{
-			free((*env)->key);
-			(*env)->key = NULL;
-		}
-		if ((*env)->value)
-		{
-			free((*env)->value);
-			(*env)->value = NULL;
-		}
-		free(*env);
-		*env = NULL;
-		*env = temp;
+		free(*exp);
+		*exp = NULL;
+	}
+	if (*both && both)
+	{
+		free(*both);
+		*both = NULL;
+	}
+	if (*whole && whole)
+	{
+		free(*whole);
+		*whole = NULL;
 	}
 }
 

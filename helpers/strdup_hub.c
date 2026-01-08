@@ -6,13 +6,13 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 17:28:17 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/07 19:37:24 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:43:42 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// string to copy - start - len
+//string to copy - start - len
 char	*strdup_max(const char *s, int start, int len)
 {
 	char	*new;
@@ -41,7 +41,11 @@ char	*ft_strdup(char *s)
 	size_t	i;
 
 	i = 0;
-	size = ft_strlen(s) + 1;
+	stcopy = NULL;
+	if (*s == '\0')
+		size = 1;
+	else
+		size = ft_strlen(s) + 1;
 	stcopy = (malloc(size));
 	if (stcopy == NULL)
 		return (0);
@@ -51,27 +55,5 @@ char	*ft_strdup(char *s)
 		i++;
 	}
 	stcopy[i] = '\0';
-	return (stcopy);
-}
-
-//please send 's' by address
-char	*ft_strdup_n_free(char *s)
-{
-	char	*stcopy;
-	size_t	size;
-	size_t	i;
-
-	i = 0;
-	size = ft_strlen(s) + 1;
-	stcopy = (malloc(size));
-	if (stcopy == NULL)
-		return (0);
-	while (s[i])
-	{
-		stcopy[i] = s[i];
-		i++;
-	}
-	stcopy[i] = '\0';
-	// free(s);
 	return (stcopy);
 }

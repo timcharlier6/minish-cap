@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/07 19:06:36 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:04:57 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int 	ft_strlen(char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strncmp_m(char *s1, const char *s2, size_t n);
 int		ft_strncmp_exp(const char *s1, const char *s2);
+int		is_valid_var_char(const char *s, char c);
 int		char_search_len(const char *s, const char c, int start, int warning_on);
 int		char_search_len_0(const char *s, const char c, int start);
 int		char_search_n(char *s, char c);
@@ -71,7 +72,6 @@ int		str_has_space(char *str, int start);
 int		str_is_char(char *str, int start);
 t_token *skip_word_or_adjacents(t_token *list, int skip_current);
 char	*ft_strdup(char *s);
-char	*ft_strdup_n_free(char *s);
 char	*strdup_max(const char *s, int start, int len);
 char	*ft_strjoin_m(char *s1, char *s2);
 char	*ft_strjoin(char *s1, char *s2);
@@ -82,6 +82,8 @@ void	ft_putendl_fd(char *s, int fd);
 void 	clean_up(t_mothership *mothership, int free_m_shell, int free_env);
 void	free_token_list(t_token **s_list);
 void	free_redir_list(t_redir **s_list);
+void	free_env_list(t_env **env);
+void	free_temp(char **exp, char **whole, char **before_d, char **both);
 void	exit_w_message(void);
 //initialisations et signals
 int		init_mothership(t_mothership **mothership);

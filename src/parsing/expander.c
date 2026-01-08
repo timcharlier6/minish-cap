@@ -6,56 +6,11 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:14:59 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/07 20:26:14 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:48:53 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int clean_all_quotes(t_token *list)
-{
-	t_token *tmp;
-	char    *new_val;
-
-	tmp = list;
-	while (tmp)
-    {
-		if ((tmp->type == T_WORD || tmp->type == T_WORD_ADJ) && tmp->quotes != 0)
-		{
-			new_val = strdup_max(tmp->value, 1, ft_strlen(tmp->value) - 2);
-			if (!new_val)
-				return (0); // Échec malloc
-			free(tmp->value);
-			tmp->value = new_val;
-		}
-		tmp = tmp->next;
-	}
-	return (1);
-}
-
-static void free_temp(char **exp, char **whole, char **before_d, char **both)
-{
-	if (*before_d && before_d)
-	{
-		free(*before_d);
-		*before_d = NULL;
-	}
-	if (*exp && exp)
-	{
-		free(*exp);
-		*exp = NULL;
-	}
-	if (*both && both)
-	{
-		free(*both);
-		*both = NULL;
-	}
-	if (*whole && whole)
-	{
-		free(*whole);
-		*whole = NULL;
-	}
-}
 
 // is sent here the rest of the string after $ (only one token)
 static char *expand(char *str, t_env *env, int once, int posit)
@@ -71,7 +26,7 @@ static char *expand(char *str, t_env *env, int once, int posit)
 		while (env)
 		{
 			while ((ft_strncmp_exp(&str[posit], env->key) == 0) 
-			&& (posit != 0 || once == 1))
+				&& (posit != 0 || once == 1))
 			{
 				temp_exp = expanded;
 				expanded = ft_strjoin(temp_exp, env->value);
@@ -92,7 +47,7 @@ static char *expand(char *str, t_env *env, int once, int posit)
 }
 
 // everything should be freed IN this function if malloc errors happen !
-static char *concatenation_of_all_parts(int pos, char *exp, char *whole_string)
+static char *cat_of_all_parts(int pos, char *exp, char *whole_string)
 {
 	char	*before_dollar;
 	char	*bd_and_exp;
@@ -101,20 +56,16 @@ static char *concatenation_of_all_parts(int pos, char *exp, char *whole_string)
 	int		jump_key;
 
 	init_to_zero(5, &before_dollar, &bd_and_exp, &after_exp, &whole, &jump_key);
-	if (pos > 1)
-	{
-		if (!(before_dollar = strdup_max(whole_string, 0, pos -1 )))
-			return (free_temp(&exp, &whole, &before_dollar, &bd_and_exp), NULL);
-	}
+	if (pos > 1 && (!(before_dollar = strdup_max(whole_string, 0, pos -1 ))))
+		return (free_temp(&exp, &whole, &before_dollar, &bd_and_exp), NULL);
 	if (!(bd_and_exp = ft_strjoin(before_dollar, exp)))
 		return (free_temp(&exp, &whole, &before_dollar, &bd_and_exp), NULL);
-	while (whole_string[jump_key])
-		jump_key++; 
+	jump_key = char_search_len_0(whole_string, '$', 0);
+	jump_key += (is_valid_var_char(&whole_string[jump_key], 0));
 	if (whole_string[jump_key] != '\0')
 	{
-		if (!(after_exp = strdup_max(&whole_string[jump_key], 
-			ft_strlen(bd_and_exp), 
-				ft_strlen(whole_string) - ft_strlen(bd_and_exp) - 1)))
+		if (!(after_exp = strdup_max(&whole_string[jump_key], 0,
+			ft_strlen(&whole_string[jump_key]))))
 		return (free_temp(&exp, &whole, &before_dollar, &bd_and_exp), NULL);
 	}
 	if (!(whole = ft_strjoin(bd_and_exp, after_exp)))
@@ -125,11 +76,10 @@ static char *concatenation_of_all_parts(int pos, char *exp, char *whole_string)
 
 int expander(t_mothership *m, t_token *t_list, t_env *env)
 {
-	
 	void			*head_m;
 	char			*exp;
 	int				position;
-	
+
 	head_m = m->token_list;
 	while(t_list)
 	{
@@ -139,8 +89,7 @@ int expander(t_mothership *m, t_token *t_list, t_env *env)
 		{
 			if (!(exp = expand(&t_list->value[position], env, 1, 0)))
 				exp = ft_strdup("");
-			if (!(t_list->value = ft_strdup_n_free
-				(concatenation_of_all_parts(position, exp, t_list->value))))
+			if (!(t_list->value = cat_of_all_parts(position, exp, t_list->value)))
 					return (free(exp), 0);
 			free(exp);
 			position = char_search_len_0(&t_list->value[position], '$', 0);

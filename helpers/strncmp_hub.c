@@ -14,7 +14,7 @@
 
 //S not NULL -> returns the number of valid env variable chars in input.
 //C not NULL -> returns 1 if char is valid var char, else returns 0.
-static int	is_valid_var_char(const char *s, char c)
+int	is_valid_var_char(const char *s, char c)
 {
 	int count;
 
@@ -52,8 +52,6 @@ int	ft_strncmp_exp(const char *s1, const char *s2)
 		s1++;
 		s2++;
 		len--;
-		// if (is_valid_var_char(*s2) && n == 0)
-		// 	return (-1);
 	}
 	if (s2 && is_valid_var_char(NULL, *s2))
 		return (1);
