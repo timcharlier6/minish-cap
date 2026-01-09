@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 22:40:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/08 13:25:22 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/08 18:37:58 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,27 @@ int clean_all_quotes(t_token *list)
 	return (1);
 }
 
-void	free_temp(char **exp, char **whole, char **before_d, char **both)
+void	free_temp(char **a, char **b, char **c, char **d)
 {
-	if (*before_d && before_d)
+	if (*a && a)
 	{
-		free(*before_d);
-		*before_d = NULL;
+		free(*a);
+		*a = NULL;
 	}
-	if (*exp && exp)
+	if (*b && b)
 	{
-		free(*exp);
-		*exp = NULL;
+		free(*b);
+		*b = NULL;
 	}
-	if (*both && both)
+	if (*c && c)
 	{
-		free(*both);
-		*both = NULL;
+		free(*c);
+		*c = NULL;
 	}
-	if (*whole && whole)
+	if (*d && d)
 	{
-		free(*whole);
-		*whole = NULL;
+		free(*d);
+		*d = NULL;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/07 18:07:19 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/09 15:02:58 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ static int parsing_hub(char *input, t_mothership *m, t_env *env)
 	if (!(m->token_list))
 		return (0);
 	if (!(clean_all_quotes(m->token_list)))
-		return(0);
-	expander(m, m->token_list, env);
+		return (0);
+	if (!(m->token_list = expander
+		(m->token_list, env, m->token_list, &m->last_status)))
+		return (0);
 	if (!(m->s_cmd_table = parsing(m->token_list, n_commands, n_commands)))
 		return (0);
 	// debugg_print(m);
@@ -75,13 +77,13 @@ static int filter_input(char *input)
 		return (0);
 	if (input[str_has_space(input, 0)] == '|')
 	{
-		new_line_after_message("parse error near `|'", NULL);
+		new_line_after_message("parse error near `|'", 0);
 		return(free(input), 0);
 	}
 	if (input[ft_strlen(input) - 1] == '|' || input[ft_strlen(input) - 1] == '<' 
 		|| input[ft_strlen(input) - 1] == '>')
 	{
-		new_line_after_message("parse error near `\\n'", NULL);
+		new_line_after_message("parse error near `\\n'", 0);
 		return(free(input), 0);
 	}
 	if (str_is_only_space(input))
@@ -115,7 +117,8 @@ int main(int ac, char **av, char **envp)
 		if (!filter_input(input))
 			break ;
         {
-			parsing_hub(input, mothership, mothership->env);
+			if (!parsing_hub(input, mothership, mothership->env))
+				break ;
 			exec(mothership);
 			add_history(input);
 		}

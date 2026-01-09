@@ -39,6 +39,31 @@ int	is_valid_var_char(const char *s, char c)
 	return (count);
 }
 
+int	is_not_sv_separator(const char *s, char c)
+{
+	int count;
+
+	count = 0;
+	if (!s && !c)
+		return (0);
+	if (s)
+	{
+		while ((*s >= 'a' && *s <= 'z') || (*s >= 'A' && *s <= 'Z')
+			|| (*s >= '0' && *s <= '9') || *s == '_')
+		{
+			s++;
+			count++;
+		}
+	}
+	if (c)
+	{
+		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+			|| (c >= '0' && c <= '9') || c == '_')
+			return(1);
+	}
+	return (count);
+}
+
 // checks the validity of all chars after <s2 is key name>.
 int	ft_strncmp_exp(const char *s1, const char *s2)
 {
@@ -48,7 +73,11 @@ int	ft_strncmp_exp(const char *s1, const char *s2)
 	while ((*s1 || *s2) && len)
 	{
 		if (*s1 != *s2)
-			return (-1);
+		{
+			if (!*s2)
+				return (-1);
+			return (1);
+		}
 		s1++;
 		s2++;
 		len--;

@@ -6,13 +6,13 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 17:28:17 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/08 13:43:42 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/08 20:44:53 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//string to copy - start - len
+// string to copy - start - len.
 char	*strdup_max(const char *s, int start, int len)
 {
 	char	*new;
@@ -20,8 +20,8 @@ char	*strdup_max(const char *s, int start, int len)
 
 	new = NULL;
 	i = 0;
-	// if (len == 0)
-	// 	return (NULL);
+	if (len < 0)
+		return (NULL);
 	new = malloc(len + 1);
 	if (!new)
 		return (NULL);

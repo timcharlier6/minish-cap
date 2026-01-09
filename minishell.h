@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/08 13:04:57 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/09 18:46:14 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_env
 
 typedef struct s_mothership
 {
+	int			last_status; // on devra stocker le code d erreur, en cas d,erreur, ici.
 	t_token		*token_list;
 	t_cmd_table	*s_cmd_table;
 	t_env		*env;
@@ -61,7 +62,8 @@ int 	ft_strlen(char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strncmp_m(char *s1, const char *s2, size_t n);
 int		ft_strncmp_exp(const char *s1, const char *s2);
-int		is_valid_var_char(const char *s, char c);
+int		is_valid_var_char(const char *s, char c);  // used???
+int		is_valid_subvar_separator(const char *s, char c);
 int		char_search_len(const char *s, const char c, int start, int warning_on);
 int		char_search_len_0(const char *s, const char c, int start);
 int		char_search_n(char *s, char c);
@@ -73,26 +75,30 @@ int		str_is_char(char *str, int start);
 t_token *skip_word_or_adjacents(t_token *list, int skip_current);
 char	*ft_strdup(char *s);
 char	*strdup_max(const char *s, int start, int len);
-char	*ft_strjoin_m(char *s1, char *s2);
 char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin_m(char *s1, char *s2);
+char	*ft_strjoin_len(char *s1, char *s2, int len);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
+char	*ft_itoa(int n);
 //helpers : clean / exit
 void 	clean_up(t_mothership *mothership, int free_m_shell, int free_env);
 void	free_token_list(t_token **s_list);
 void	free_redir_list(t_redir **s_list);
 void	free_env_list(t_env **env);
+void	free_subt_list(t_sub_tok **s_list);
 void	free_temp(char **exp, char **whole, char **before_d, char **both);
 void	exit_w_message(void);
 //initialisations et signals
-int		init_mothership(t_mothership **mothership);
-void	signal_handler(int sig);
-void	signal_init();
-int		init_env_list(t_env **env_list, char **envp);
-void	init_to_zero(int count, ...);
+int			init_mothership(t_mothership **mothership);
+void		signal_handler(int sig);
+void		signal_init();
+int			init_env_list(t_env **env_list, char **envp);
+void		init_to_zero(int count, ...);
+t_sub_tok	*init_sub_tok(char *str, t_sub_tok *sub_t, t_env *env, int c_status);
 //minishell : parsing
-void		new_line_after_message();
+void		new_line_after_message(char *message, int error_number);
 int			check_if_builtin(char *input, int i, int res);
 int			token_is_word(t_token **s_tlist, char *s, int start, int quote_type);
 t_token 	*tokenisation(char *input, t_token *s_tlist, int i);
@@ -100,7 +106,8 @@ t_cmd_table *parsing(t_token *s_tlist, int number_of_cmds, int number_of_cmds2);
 int			clean_all_quotes(t_token *list);
 int			errmsg_cmd(char *command, char *error_message, int error_nb);
 void		free_ptr(void *ptr);
-int 		expander(t_mothership *m, t_token *t_list, t_env *env);
+// t_token 	*expander(t_mothership *m, t_token *t_list, t_env *env);
+t_token 	*expander(t_token *t_list, t_env *env, t_token *head, int *c_status);
 //builtins
 void		my_echo(t_cmd_table *cmd);
 int			pwd(void);

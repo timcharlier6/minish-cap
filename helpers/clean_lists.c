@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 22:40:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/08 13:03:36 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/09 21:18:41 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,27 @@ void	free_env_list(t_env **env)
 		free(*env);
 		*env = NULL;
 		*env = temp;
+	}
+}
+
+void free_subt_list(t_sub_tok **s_list)
+{
+	t_sub_tok *temp;
+
+	temp = 0;
+    if (!s_list || !*s_list)
+		return ;
+	while(*s_list)
+	{
+		temp = (*s_list)->next;
+		if ((*s_list)->value)
+		{
+			free((*s_list)->value);
+			(*s_list)->value = NULL;
+		}
+		free(*s_list);
+		*s_list = NULL;
+		*s_list = temp;
 	}
 }
 

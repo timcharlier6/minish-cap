@@ -6,7 +6,7 @@
 #    By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 20:48:27 by csimonne          #+#    #+#              #
-#    Updated: 2026/01/08 13:25:04 by csimonne         ###   ########.fr        #
+#    Updated: 2026/01/09 17:51:13 by csimonne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,15 +15,15 @@ HEADER = minishell.h
 SRC = src/main.c src/parsing/tokenisation.c src/parsing/check_syntax.c \
 		src/parsing/command_table.c src/parsing/expander.c \
 		src/parsing/inits_and_signals.c \
-		src/builtins/echo.c src/builtins/pwd.c\
+		src/parsing/sub_tokens_init.c src/parsing/sub_token_types.c\
+		src/builtins/echo.c src/builtins/pwd.c \
 		src/error.c \
-		helpers/strncmp_hub.c helpers/ft_strlen.c \
+		helpers/strncmp_hub.c helpers/ft_strlen.c helpers/ft_itoa.c\
 		helpers/ft_space_related.c helpers/strdup_hub.c \
 		helpers/char_search.c helpers/clean_up.c helpers/clean_lists.c \
 		helpers/token_type_counter.c helpers/skip_word_or_adjacents.c \
-		helpers/ft_calloc.c helpers/ft_strjoin_m.c \
-		helpers/ft_putstr_fd.c src/exec.c helpers/ft_strjoin.c \
-		helpers/ft_putendl.c helpers/init_to_zero.c 
+		helpers/ft_calloc.c helpers/ft_strjoin_hub.c helpers/init_to_zero.c \
+		helpers/ft_putstr_fd.c src/exec.c helpers/ft_putendl.c
 
 OBJ = $(SRC:.c=.o)
 OBJDIR = obj

@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:41:57 by csimonne          #+#    #+#             */
-/*   Updated: 2025/12/19 16:22:31 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/09 18:45:33 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,36 @@ typedef enum e_token_type
 	T_REDIR_APPEND,  //5- >>
 	T_HEREDOC        //6- <<
 }   t_token_type;
+
+// Le texte pur : Tout ce qui se trouve au début ou entre deux $.
+
+//     Règle : S'arrête dès qu'on rencontre un $.
+
+// La variable classique : Commence par $ suivi d'un caractère alphanumérique ou d'un _.
+
+//     Règle : S'arrête au premier caractère qui n'est pas alphanumérique (lettres, chiffres, underscore).
+
+// La variable spéciale : $? (le status) ou $$ (le PID).
+
+//     Règle : Ce sont des blocs de deux caractères exactement.
+	
+typedef enum e_st_type  
+{
+	NULL,				//0
+	ST_TEXT,          //1-   [0]-> blabla<separateur ou '\0'> 
+	ST_VAR,           //2-   $USER
+	ST_UNVALID_VAR,   //3-   $USERunvalidchars
+	ST_STATUS         //4- 	 $?
+}   t_subtok_type;
+
+// UT_PID         //5-   $$
+
+typedef struct s_sub_token
+{
+    char				*value;
+	t_subtok_type		subtok_type;
+    struct s_sub_token	*next;
+}   t_sub_tok;
 
 typedef struct s_token
 {
