@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:52:58 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/05 15:21:35 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:37:23 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ int token_is_word(t_token **s_tlist, char *s, int start, int quote_type)
 	else
 		len = (str_is_char(s, start));
 	if (s[start + len] > 32 && 
-			s[start + len] != 34 &&
-				s[start + len] != 39) // end of WORD = other WORD (no space)
+			s[start + len] != '|' &&
+				s[start + len] != '<' &&
+					s[start + len] != '>') //end of WORD = other WORD (no space)
 		add_token(s_tlist, T_WORD_ADJ, strdup_max(s, start, len), quote_type);	
 	else if (start > 0 && s[start - 1] && s[start - 1] > 32) // beggining = other WORD (n/s)
 		add_token(s_tlist, T_WORD_ADJ, strdup_max(s, start, len), quote_type);	

@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:07:19 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/06 11:47:35 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:20:30 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	init_mothership(t_mothership **mothership)
 	(*mothership) = ft_calloc(1, sizeof(t_mothership));
 	if (!(*mothership))
 		return (0);
+	(*mothership)->last_status = 0;
 	return (1);
 }
 
@@ -46,7 +47,7 @@ int	init_env_list(t_env **env_list, char **envp)
 	t_env	*new_node;
 
 	i = -1;
-	*env_list = NULL; // Initialise le pointeur de mothership à NULL
+	*env_list = NULL;
 	if (!envp)
 		return (0);
 	while (envp[++i])

@@ -6,22 +6,46 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:14:59 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/09 21:43:50 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:53:06 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// static int fill_list(t_sub_tok *sub_tok, t_token *t_list)
+// {
+// 	char *t_list_value_temp;
+
+// 	t_list_value_temp = NULL;
+// 	if (t_list->value)
+// 		free(t_list->value);
+// 	t_list->value = NULL;
+// 	while (sub_tok)
+// 	{
+// 		t_list_value_temp = t_list value
+// 		if (!(t_list->value = 
+// 			ft_strjoin(t_list->value, sub_tok->value)))
+// 				return (0);
+// 		sub_tok = sub_tok->next;
+// 	}
+// 	return (1);
+// }
+
 static int fill_list(t_sub_tok *sub_tok, t_token *t_list)
 {
+	char *t_list_value_temp;
+
+	t_list_value_temp = NULL;
 	if (t_list->value)
 		free(t_list->value);
 	t_list->value = NULL;
 	while (sub_tok)
 	{
-		if (!(t_list->value = 
+		if (!(t_list_value_temp = 
 			ft_strjoin(t_list->value, sub_tok->value)))
 				return (0);
+		free(t_list->value);
+		t_list->value = t_list_value_temp;
 		sub_tok = sub_tok->next;
 	}
 	return (1);
@@ -46,6 +70,6 @@ t_token *expander(t_token *t_list, t_env *env, t_token *head, int *c_stat)
 		}
 		t_list = t_list->next;
 	}
-	c_stat= 0;
+	c_stat = 0;
 	return (t_list = head);
 }
