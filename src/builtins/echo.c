@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:42:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/05 17:42:51 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/08 18:27:29 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	get_echo_fd(t_cmd_table *cmd)
 	t_redir	*tmp;
 	int		fd;
 
-	tmp = cmd->outfile;
 	fd = 1;
+	tmp = cmd->outfile;
 	while (tmp)
 	{
 		if (fd != 1)
@@ -37,43 +37,32 @@ static int	get_echo_fd(t_cmd_table *cmd)
 	return (fd);
 }
 
-void my_echo(t_cmd_table *cmd)
+int	my_echo(t_cmd_table *cmd)
 {
-    int i;
-    int n_flag;
-    int fd;
+	int i;
+	int n_flag;
+	int fd;
 
-    i = 1;
-    n_flag = 0;
-    while (cmd->args[i] && !ft_strncmp(cmd->args[i], "-n", 3))
-    {
-        n_flag = 1;
-        i++;
-    }
-    fd = get_echo_fd(cmd);
-    if (fd == -1)
-        return ;
-    while (cmd->args[i])
-    {
-        ft_putstr_fd(cmd->args[i], fd);
-        if (cmd->args[i + 1])
-            write(fd, " ", 1);
-        i++;
-    }
-    if (!n_flag)
-        write(fd, "\n", 1);
-    if (fd != 1)
-        close(fd);
+	i = 1;
+	n_flag = 0;
+	while (cmd->args[i] && !ft_strncmp(cmd->args[i], "-n", 3))
+	{
+		n_flag = 1;
+		i++;
+	}
+	fd = get_echo_fd(cmd);
+	if (fd == -1)
+		return (1);
+	while (cmd->args[i])
+	{
+		ft_putstr_fd(cmd->args[i], fd);
+		if (cmd->args[i + 1])
+			write(fd, " ", 1);
+		i++;
+	}
+	if (!n_flag)
+		write(fd, "\n", 1);
+	if (fd != 1)
+		close(fd);
+	return (0);
 }
-/*
-int main (int ac, char **av)
-{
-    t_cmd_table cmd;
-
-    (void)ac;
-    cmd.args = av;
-    cmd.outfile = NULL;
-    my_echo(&cmd);
-    return (0);
-}
-*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 12:09:29 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/06 12:44:10 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/08 14:31:35 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ int pwd(void)
         ft_putendl_fd(cwd, STDOUT_FILENO);
         return (0);
     }
-    errmsg_cmd("pwd", strerror(errno), errno);
     return (1);
 }

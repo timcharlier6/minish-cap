@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/09 15:02:58 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:47:58 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,24 @@ static int filter_input(char *input)
 	if (input[str_has_space(input, 0)] == '|')
 	{
 		new_line_after_message("parse error near `|'", 0);
-		return(free(input), 0);
+		return(add_history(input), 0);
 	}
 	if (input[ft_strlen(input) - 1] == '|' || input[ft_strlen(input) - 1] == '<' 
 		|| input[ft_strlen(input) - 1] == '>')
 	{
 		new_line_after_message("parse error near `\\n'", 0);
-		return(free(input), 0);
+		return(add_history(input), 0);
 	}
 	if (str_is_only_space(input))
 	{
 		rl_redisplay();
-		return(free(input), 0);
+		return(0);
 	}
 	if (((char_search_n(input, '\'')) % 2 != 0) || 
 		((char_search_n(input, '\"')) % 2 != 0)) // not pair number of quotes '
 	{
 		new_line_after_message(NULL, 1);
-		return(free(input), 0);
+		return(add_history(input), 0);
 	}
 	return (1);
 }
@@ -114,8 +114,7 @@ int main(int ac, char **av, char **envp)
 	{
 		if (!(input = readline("minishell > "))) // error or CTRL + D (EOF simulated)
 			exit_w_message();
-		if (!filter_input(input))
-			break ;
+		if (filter_input(input))
         {
 			if (!parsing_hub(input, mothership, mothership->env))
 				break ;

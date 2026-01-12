@@ -1,0 +1,3 @@
+ cam
+
+ utiliser strncmp_m au lieu de strcmp ? (securite du max 'n')

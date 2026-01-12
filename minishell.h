@@ -6,23 +6,23 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/09 18:46:14 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:28:54 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "token.h"
-#include "command_table.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
-#include <errno.h>
+# include "token.h"
+# include "command_table.h"
+# include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
 #define PATH_MAX 1024
 
@@ -58,6 +58,11 @@ typedef struct s_i
 } t_for_static_indexes;
 
 //helpers
+char	*ft_strncpy(char *s1, char *s2, size_t n);
+char	*ft_strdup(char *s);
+int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
+
 int 	ft_strlen(char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strncmp_m(char *s1, const char *s2, size_t n);
@@ -76,7 +81,7 @@ t_token *skip_word_or_adjacents(t_token *list, int skip_current);
 char	*ft_strdup(char *s);
 char	*strdup_max(const char *s, int start, int len);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strjoin_m(char *s1, char *s2);
+char 	*ft_strjoin_m(char *s1, char *s2);
 char	*ft_strjoin_len(char *s1, char *s2, int len);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_putstr_fd(char *s, int fd);
@@ -106,11 +111,12 @@ t_cmd_table *parsing(t_token *s_tlist, int number_of_cmds, int number_of_cmds2);
 int			clean_all_quotes(t_token *list);
 int			errmsg_cmd(char *command, char *error_message, int error_nb);
 void		free_ptr(void *ptr);
-// t_token 	*expander(t_mothership *m, t_token *t_list, t_env *env);
 t_token 	*expander(t_token *t_list, t_env *env, t_token *head, int *c_status);
 //builtins
-void		my_echo(t_cmd_table *cmd);
+int			my_echo(t_cmd_table *cmd);
 int			pwd(void);
+int			cd(t_cmd_table *cmd, t_env *my_env);
+int			my_env(t_env *my_env);
 //exec
 int			exec(t_mothership *m);
 
