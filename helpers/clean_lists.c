@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 22:40:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/09 21:18:41 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 20:30:24 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	free_env_list(t_env **env)
 	}
 }
 
-void free_subt_list(t_sub_tok **s_list)
+void free_subt_list(t_sub **s_list)
 {
-	t_sub_tok *temp;
+	t_sub *temp;
 
 	temp = 0;
     if (!s_list || !*s_list)

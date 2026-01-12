@@ -6,22 +6,22 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:16:06 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/06 15:47:56 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 21:59:51 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //returns len before c, or 0 if not found. starts from start.
-// arg3: 1 = warning message on / arg 4: 1 = exit on.
-int	char_search_len(const char *s, const char c, int start, int warning_on)
+// w_on = warning message on
+int	char_search_len(const char *s, const char c, int start, int w_on)
 {
 	int	i;
 
 	i = 0;
-	if (!s && warning_on == 1)
+	if (!s && w_on == 1)
 		printf("Parsing Error : char searching function ->empty string.\n");
-	if (!s && warning_on == 0)
+	if (!s && w_on == 0)
 		return(0);
 	while (s[start + i])
 	{

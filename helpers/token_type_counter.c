@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 17:22:54 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/05 14:10:31 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:00:56 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	token_word_be_arg_count(t_token *token_list)
 }
 
 // enter the type you want to count as 2nd argument &&|| 3rd arg.
-int	redir_token_count(t_token *t_l, t_token_type typ1, t_token_type typ2)
+int	redir_token_count(t_token *t_l, t_tok_type typ1, t_tok_type typ2)
 {
 	int count;
 

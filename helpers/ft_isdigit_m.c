@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_table.h                                    :+:      :+:    :+:   */
+/*   ft_isdigit_m.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 20:33:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 22:34:25 by csimonne         ###   ########.fr       */
+/*   Created: 2026/01/12 19:55:56 by csimonne          #+#    #+#             */
+/*   Updated: 2026/01/12 22:04:51 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-typedef struct s_redir
+int	ft_isdigit_m(int n)
 {
-    char			*name;
-    t_tok_type	type;
-    struct s_redir	*next;
-}	t_redir;
-
-typedef struct cmd_table
-{
-	char		**args;   // !<a'b'"c">= 3 tokens (via lexer) mais UN SEUL ARG FINAL!
-	t_redir		*infile;    // Utilisé pour < et <<
-	t_redir		*outfile;   // Utilisé pour > et >>
-	struct cmd_table *next;
-}	t_cmd_table;
+	if (n < 10)
+		return ('0' <= n && n <= '9');
+	else
+	{
+		while (n > 9)
+		{
+			ft_isdigit_m(n / 10);
+			return ('0' <= n && n <= '9');
+		}
+	}
+	return (0);
+}

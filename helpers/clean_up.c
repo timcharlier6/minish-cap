@@ -6,31 +6,32 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 22:40:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/08 18:37:58 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:34:25 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void exit_w_message(void)
+void	exit_w_message(void)
 {
-		printf("exit\n");
-		exit(1);
+	printf("exit\n");
+	exit(1);
 }
 
-int clean_all_quotes(t_token *list)
+int	clean_all_quotes(t_token *list)
 {
-	t_token *tmp;
-	char    *new_val;
+	t_token	*tmp;
+	char	*new_val;
 
 	tmp = list;
 	while (tmp)
-    {
-		if ((tmp->type == T_WORD || tmp->type == T_WORD_ADJ) && tmp->quotes != 0)
+	{
+		if ((tmp->type == T_WORD || tmp->type == T_WORD_ADJ)
+			&& tmp->quotes != 0)
 		{
 			new_val = strdup_max(tmp->value, 1, ft_strlen(tmp->value) - 2);
 			if (!new_val)
-				return (0); // Échec malloc
+				return (0);
 			free(tmp->value);
 			tmp->value = new_val;
 		}
@@ -63,14 +64,14 @@ void	free_temp(char **a, char **b, char **c, char **d)
 	}
 }
 
-static void free_array(char **array)
+static void	free_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!array)
 		return ;
-	while(array[i])
+	while (array[i])
 	{
 		free(array[i]);
 		array[i] = NULL;
@@ -80,30 +81,30 @@ static void free_array(char **array)
 	array = NULL;
 }
 
-// arg2 : 1 = free mothership's shell // arg3 : 1 = free environnement list 
-void clean_up(t_mothership *m, int free_m_shell, int free_env)
+//arg2 : 1 = free mothership's shell // arg3 : 1 = free environnement list
+void	clean_up(t_mothership *m, int free_m_shell, int free_env)
 {
-    t_cmd_table *temp;
-    
-	if (!m) // Protection indispensable
+	t_cmd_table	*temp;
+
+	if (!m)
 		return ;
 	if (m->token_list)
 		free_token_list(&m->token_list);
 	if (m->env && free_env == 1)
 		free_env_list(&m->env);
-	while (m->s_cmd_table)
+	while (m->cmd_table)
 	{
-		if (m->s_cmd_table->args)
-			free_array(m->s_cmd_table->args);
-		if (m->s_cmd_table->infile)
-			free_redir_list(&m->s_cmd_table->infile);
-		if (m->s_cmd_table->outfile)
-			free_redir_list(&m->s_cmd_table->outfile);
-		temp = m->s_cmd_table;
-		m->s_cmd_table = m->s_cmd_table->next;
+		if (m->cmd_table->args)
+			free_array(m->cmd_table->args);
+		if (m->cmd_table->infile)
+			free_redir_list(&m->cmd_table->infile);
+		if (m->cmd_table->outfile)
+			free_redir_list(&m->cmd_table->outfile);
+		temp = m->cmd_table;
+		m->cmd_table = m->cmd_table->next;
 		free(temp);
 	}
-	m->s_cmd_table = NULL;
+	m->cmd_table = NULL;
 	if (free_m_shell == 1)
 		free(m);
 }

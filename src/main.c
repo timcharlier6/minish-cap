@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 18:47:58 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:34:25 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 //     t_redir     *in;
 //     t_redir     *out;
 
-//     cmd = m->s_cmd_table;
+//     cmd = m->cmd_table;
 //     while (cmd)
 //     {
 //         printf("-----CMD-------\n");
@@ -65,7 +65,7 @@ static int parsing_hub(char *input, t_mothership *m, t_env *env)
 	if (!(m->token_list = expander
 		(m->token_list, env, m->token_list, &m->last_status)))
 		return (0);
-	if (!(m->s_cmd_table = parsing(m->token_list, n_commands, n_commands)))
+	if (!(m->cmd_table = parsing(m->token_list, n_commands, n_commands)))
 		return (0);
 	// debugg_print(m);
 	return(1);

@@ -6,13 +6,13 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 16:38:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 17:40:47 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 20:30:24 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int expand(char *str, t_env *env, t_sub_tok **sub_t)
+static int expand(char *str, t_env *env, t_sub **sub_t)
 {
 	if (str[1])
 		str++;
@@ -37,7 +37,7 @@ static int expand(char *str, t_env *env, t_sub_tok **sub_t)
 	return (1);
 }
 
-int is_var(char *str, t_sub_tok *sub_t, t_env *env, int len)
+int is_var(char *str, t_sub *sub_t, t_env *env, int len)
 {
 	int result;
 	
@@ -53,7 +53,7 @@ int is_var(char *str, t_sub_tok *sub_t, t_env *env, int len)
 	return (len);
 }
 
-int is_text(char *str, t_sub_tok *sub_t, int len)
+int is_text(char *str, t_sub *sub_t, int len)
 {
 	if (!(sub_t->value = strdup_max(str, 0, len)))
 		return (0);
@@ -61,7 +61,7 @@ int is_text(char *str, t_sub_tok *sub_t, int len)
 	return (len);
 }
 
-int is_solo_dollar(t_sub_tok *sub_t)
+int is_solo_dollar(t_sub *sub_t)
 {
 	if (!(sub_t->value = ft_strdup("$")))
 		return (0);
@@ -69,7 +69,7 @@ int is_solo_dollar(t_sub_tok *sub_t)
 	return (1);
 }
 
-int is_status(t_sub_tok *sub_t, int current_status)
+int is_status(t_sub *sub_t, int current_status)
 {	
 	sub_t->value = ft_itoa(current_status);
 	if (!sub_t->value)
@@ -78,12 +78,12 @@ int is_status(t_sub_tok *sub_t, int current_status)
 	return (2);
 }
 
-// int is_var(char *str, t_sub_tok *sub_t, t_env *env, int len)
+// int is_var(char *str, t_sub *sub_t, t_env *env, int len)
 // {
 // 	int result;
 	
 // 	result = 0;
-// 	if (!(sub_t = calloc(1, sizeof(t_sub_tok))))
+// 	if (!(sub_t = calloc(1, sizeof(t_sub))))
 // 		return (0);
 // 	result = expand(str, env, &sub_t);
 // 	if (result  == 0)
@@ -97,9 +97,9 @@ int is_status(t_sub_tok *sub_t, int current_status)
 // 	return (len);
 // }
 
-// int is_text(char *str, t_sub_tok *sub_t, int len)
+// int is_text(char *str, t_sub *sub_t, int len)
 // {
-// 	if (!(sub_t = calloc(1, sizeof(t_sub_tok))))
+// 	if (!(sub_t = calloc(1, sizeof(t_sub))))
 // 		return (0);
 // 	if (!(sub_t->value = strdup_max(str, 0, len)))
 // 		return (0);
@@ -110,9 +110,9 @@ int is_status(t_sub_tok *sub_t, int current_status)
 // }
 
 
-// int is_solo_dollar(t_sub_tok *sub_t)
+// int is_solo_dollar(t_sub *sub_t)
 // {
-// 	if (!(sub_t = calloc(1, sizeof(t_sub_tok))))
+// 	if (!(sub_t = calloc(1, sizeof(t_sub))))
 // 		return (0);
 // 	sub_t->value = "$";
 // 	sub_t->subtok_type = ST_TEXT;
@@ -121,9 +121,9 @@ int is_status(t_sub_tok *sub_t, int current_status)
 // 	return (1);
 // }
 
-// int is_status(t_sub_tok *sub_t, int current_status)
+// int is_status(t_sub *sub_t, int current_status)
 // {	
-// 	if (!(sub_t = calloc(1, sizeof(t_sub_tok))))
+// 	if (!(sub_t = calloc(1, sizeof(t_sub))))
 // 		return (0);
 // 	sub_t->value = ft_itoa(current_status);
 // 	if (!sub_t->value)

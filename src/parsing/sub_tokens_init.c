@@ -6,18 +6,18 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 16:38:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 17:21:53 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:25:05 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_text(char *str, t_sub_tok *sub_t, int len);
-int is_var(char *str, t_sub_tok *sub_t, t_env *env, int len);
-int is_solo_dollar(t_sub_tok *sub_t);
-int is_status(t_sub_tok *sub_t, int current_status);
+int	is_text(char *str, t_sub *sub_t, int len);
+int	is_var(char *str, t_sub *sub_t, t_env *env, int len);
+int	is_solo_dollar(t_sub *sub_t);
+int	is_status(t_sub *sub_t, int current_status);
 
-static int is_not_sv_separator_char(char s)
+static int	is_not_sv_separator_char(char s)
 {
 	if ((s >= 'a' && s <= 'z') || (s >= 'A' && s <= 'Z')
 		|| (s >= '0' && s <= '9') || s == '_')
@@ -25,9 +25,9 @@ static int is_not_sv_separator_char(char s)
 	return (1);
 }
 
-static int is_not_sv_separator(char *s, int whole_str_flag, int check_next)
+static int	is_not_sv_separator(char *s, int whole_str_flag, int check_next)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (!s)
@@ -53,25 +53,29 @@ static int is_not_sv_separator(char *s, int whole_str_flag, int check_next)
 	return (count);
 }
 
-static t_sub_tok *new_token(t_sub_tok *sub_t)
+static t_sub	*new_token(t_sub *sub_t)
 {
 	if (sub_t == NULL)
 	{
-		if (!(sub_t = calloc(1, sizeof(t_sub_tok))))
+		sub_t = calloc(1, sizeof(t_sub));
+		if (!sub_t)
 			return (0);
 	}
 	else
 	{
-		if (!(sub_t->next = calloc(1, sizeof(t_sub_tok))))
+		sub_t->next = calloc(1, sizeof(t_sub));
+		if (!(sub_t->next))
 			return (0);
 		sub_t = sub_t->next;
 		sub_t->next = NULL;
 	}
-	return (sub_t); 
+	return (sub_t);
 }
-t_sub_tok	*is_empty(t_sub_tok *sub_t)
+
+t_sub	*is_empty(t_sub *sub_t)
 {
-	if (!(sub_t = calloc(1, sizeof(t_sub_tok))))
+	sub_t = calloc(1, sizeof(t_sub));
+	if (!sub_t)
 		return (NULL);
 	sub_t->subtok_type = ST_TEXT;
 	sub_t->value = ft_strdup("");
@@ -81,30 +85,33 @@ t_sub_tok	*is_empty(t_sub_tok *sub_t)
 }
 
 //on analyse toujours a partir du char AVANT la string. dollar? vide? etc
-// Un nom de variable doit obligatoirement commencer par une lettre ou '_'. sinon txt
-t_sub_tok	*init_sub_tok(char *str, t_sub_tok *sub_t, t_env *env, int c_status)
+// Un nom de variable doit obligatoirement commencer par une lettre ou '_'. 
+// -> sinon txt
+t_sub	*init_sub(char *s, t_sub *sub_t, t_env *env, int c_status)
 {
-	int 		i;
+	int			i;
 	int			watch_i;
-	t_sub_tok 	*sub_t_head;
-	
-	init_to_zero(4, &i, &watch_i, &sub_t, &sub_t_head);
-	if (str[i] == '\0')
-		return(sub_t = is_empty(sub_t));
-	while(str[i])
+	t_sub	*sub_t_head;
+
+	i = 0;
+	init_to_zero(3, &watch_i, &sub_t, &sub_t_head);
+	if (s[i] == '\0')
+		return (sub_t = is_empty(sub_t));
+	while (s[i])
 	{
-		if (!(sub_t = new_token(sub_t)))
+		sub_t = new_token(sub_t);
+		if (!sub_t)
 			return (free_subt_list(&sub_t), NULL);
-		if (watch_i-- == 0) 
+		if (watch_i-- == 0)
 			sub_t_head = sub_t;
-		if (str[i] == '$' && (str[i + 1] == '?'))
-				i += is_status(sub_t, c_status);
-		else if (str[i] == '$' && is_not_sv_separator(&str[i], 0, 1) == 1)
-			i += is_solo_dollar(sub_t);			
-		else if (str[i] == '$')
-			i += is_var(&str[i], sub_t, env, is_not_sv_separator(&str[i], 0, 0));
+		if (s[i] == '$' && (s[i + 1] == '?'))
+			i += is_status(sub_t, c_status);
+		else if (s[i] == '$' && is_not_sv_separator(&s[i], 0, 1) == 1)
+			i += is_solo_dollar(sub_t);
+		else if (s[i] == '$')
+			i += is_var(&s[i], sub_t, env, is_not_sv_separator(&s[i], 0, 0));
 		else
-			i += is_text(&str[i], sub_t, is_not_sv_separator(&str[i], 0, 1));
+			i += is_text(&s[i], sub_t, is_not_sv_separator(&s[i], 0, 1));
 		if (i == 0 || i <= watch_i)
 			return (free_subt_list(&sub_t), NULL);
 		watch_i = i;

@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:41:57 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/09 18:45:33 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:00:56 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum e_token_type
 	T_REDIR_OUT,     //4- >
 	T_REDIR_APPEND,  //5- >>
 	T_HEREDOC        //6- <<
-}   t_token_type;
+}   t_tok_type;
 
 // Le texte pur : Tout ce qui se trouve au début ou entre deux $.
 
@@ -59,11 +59,11 @@ typedef struct s_sub_token
     char				*value;
 	t_subtok_type		subtok_type;
     struct s_sub_token	*next;
-}   t_sub_tok;
+}   t_sub;
 
 typedef struct s_token
 {
-    t_token_type    type;
+    t_tok_type    type;
 	t_quote_type	quotes;
     char            *value;
     struct s_token  *next;

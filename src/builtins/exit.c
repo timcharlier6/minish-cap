@@ -1,0 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
+/*   Updated: 2026/01/12 22:25:37 by csimonne         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	builtin_exit(char **args, t_mothership *m)
+{
+	ft_putendl_fd("exit", 2);
+	if (!args[1])
+	{
+		clean_up(m, 1, 1);
+		exit(m->last_status);
+	}
+	if (args[2])
+	{
+		ft_putendl_fd("minishell: exit: too many arguments", 2);
+		m->last_status = 1;
+		return ;
+	}
+	if (!(ft_isdigit_m(ft_atoi(args[1]))))
+	{
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);
+		clean_up(m, 1, 1);
+		exit(255);
+	}
+	clean_up(m, 1, 1);
+	exit(ft_atoi(args[1]));
+}

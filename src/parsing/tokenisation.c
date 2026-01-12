@@ -6,24 +6,24 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:52:58 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 16:37:23 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/12 22:00:56 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "token.h"
 
-static int add_token(t_token **s_tlist, t_token_type type, char *s, t_quote_type q)
+static int	add_token(t_token **lst, t_tok_type type, char *s, t_quote_type q)
 {
-	int 	inc;
-	t_token *new;
+	int		inc;
+	t_token	*new;
 	t_token	**temp;
-	
+
 	if (!s)
-		return (free_token_list(s_tlist), 0);
-	if ((*s_tlist)->type == T_REDIR_APPEND || (*s_tlist)->type == T_HEREDOC)
+		return (free_token_list(lst), 0);
+	if ((*lst)->type == T_REDIR_APPEND || (*lst)->type == T_HEREDOC)
 		inc = 2;
-	else if ((*s_tlist)->type == T_WORD || (*s_tlist)->type == T_WORD_ADJ)
+	else if ((*lst)->type == T_WORD || (*lst)->type == T_WORD_ADJ)
 		inc = ft_strlen(s);
 	else
 		inc = 1;
@@ -34,20 +34,21 @@ static int add_token(t_token **s_tlist, t_token_type type, char *s, t_quote_type
 	new->value = s;
 	new->next = NULL;
 	new->quotes = q;
-	if ((*s_tlist)->value == NULL) // c est toujours la tete qu on recoit ici
-		return (free_token_list(s_tlist), *s_tlist = new, inc); //  OVERWRITE ICIIIIIIII ahaaaa faut pas oublier de freeeeeeee un des deux !!!
-	temp = s_tlist;
-	while((*temp)->next)
+	if ((*lst)->value == NULL)
+		return (free_token_list(lst), *lst = new, inc);
+	temp = lst;
+	while ((*temp)->next)
 		temp = &(*temp)->next;
-	return((*temp)->next = new, inc);
+	return ((*temp)->next = new, inc);
 }
 
 //returns: i = (starting point + found length)
 //quotes check inside
-int token_is_word(t_token **s_tlist, char *s, int start, int quote_type)
+// line 64 -> end of WORD = other WORD (no space)
+int	token_is_word(t_token **tlist, char *s, int start, int quote_type)
 {
-	int len;
-	
+	int	len;
+
 	len = 0;
 	if (s[start] == '\'')
 	{
@@ -61,52 +62,42 @@ int token_is_word(t_token **s_tlist, char *s, int start, int quote_type)
 	}
 	else
 		len = (str_is_char(s, start));
-	if (s[start + len] > 32 && 
-			s[start + len] != '|' &&
-				s[start + len] != '<' &&
-					s[start + len] != '>') //end of WORD = other WORD (no space)
-		add_token(s_tlist, T_WORD_ADJ, strdup_max(s, start, len), quote_type);	
-	else if (start > 0 && s[start - 1] && s[start - 1] > 32) // beggining = other WORD (n/s)
-		add_token(s_tlist, T_WORD_ADJ, strdup_max(s, start, len), quote_type);	
-	else // Normal WORD
-		add_token(s_tlist, T_WORD, strdup_max(s, start, len), quote_type);	
-	return(start + len);
+	if (s[start + len] > 32
+		&& s[start + len] != '|'
+		&& s[start + len] != '<'
+		&& s[start + len] != '>')
+		add_token(tlist, T_WORD_ADJ, strdup_max(s, start, len), quote_type);
+	else if (start > 0 && s[start - 1] && s[start - 1] > 32)
+		add_token(tlist, T_WORD_ADJ, strdup_max(s, start, len), quote_type);
+	else
+		add_token(tlist, T_WORD, strdup_max(s, start, len), quote_type);
+	return (start + len);
 }
 
-t_token *tokenisation(char *input, t_token *s_tlist, int i)
+t_token	*tokenisation(char *input, t_token *tlist, int i)
 {
-	s_tlist = ft_calloc(1, sizeof(* s_tlist));
-	if (!(s_tlist))
+	tlist = ft_calloc(1, sizeof(*tlist));
+	if (!(tlist))
 		return (0);
-	while(input[i])
+	while (input[i])
 	{
-		i += str_has_space(input, i); //ignorer les espaces en debut de ligne
-		if (input[i] == '\0')  //utile ?
+		i += str_has_space(input, i);
+		if (input[i] == '\0')
 			break ;
 		if (input[i] == '|')
-			i += add_token(&(s_tlist), T_PIPE, strdup_max("|", 0, 1), 0);
+			i += add_token(&(tlist), T_PIPE, strdup_max("|", 0, 1), 0);
 		else if (input[i + 1] && (input[i] == '>' && input[i + 1] == '>'))
-			i += add_token(&(s_tlist), T_REDIR_APPEND, strdup_max(">>", 0, 2), 0);
+			i += add_token(&(tlist), T_REDIR_APPEND, strdup_max(">>", 0, 2), 0);
 		else if (input[i + 1] && (input[i] == '<' && input[i + 1] == '<'))
-			i += add_token(&(s_tlist), T_HEREDOC, strdup_max("<<", 0, 2), 0);
+			i += add_token(&(tlist), T_HEREDOC, strdup_max("<<", 0, 2), 0);
 		else if (input[i] == '>')
-			i += add_token(&(s_tlist), T_REDIR_OUT, strdup_max(">", 0, 1), 0);
+			i += add_token(&(tlist), T_REDIR_OUT, strdup_max(">", 0, 1), 0);
 		else if (input[i] == '<')
-			i += add_token(&(s_tlist), T_REDIR_IN, strdup_max("<", 0, 1), 0);
-		else // word!
-			i = token_is_word(&(s_tlist), input, i, 0);
-		if (!(s_tlist)) // i = 0 -> malloc failed in strdup or add_token
+			i += add_token(&(tlist), T_REDIR_IN, strdup_max("<", 0, 1), 0);
+		else
+			i = token_is_word(&(tlist), input, i, 0);
+		if (!(tlist))
 			return (0);
 	}
-	return ((s_tlist));
+	return ((tlist));
 }
-
-	// while ((*s_tlist)) //DEBUGG
-	// {
-	// 	printf("\n"); // pour DEBUGG
-	// 	printf("output : %s\n", (*s_tlist)->value); // pour DEBUGG
-	// 	printf("type : %u\n", (*s_tlist)->type); // pour DEBUGG
-	// 	printf("quote type : %u\n", (*s_tlist)->quotes); // pour DEBUGG
-	// 	(*s_tlist) = (*s_tlist)->next;
-	// }
-	// printf("\n"); // pour DEBUGG
