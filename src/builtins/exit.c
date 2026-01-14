@@ -6,13 +6,13 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 22:25:37 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:40:12 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_exit(char **args, t_mothership *m)
+int	builtin_exit(char **args, t_mothership *m)
 {
 	ft_putendl_fd("exit", 2);
 	if (!args[1])
@@ -24,7 +24,7 @@ void	builtin_exit(char **args, t_mothership *m)
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		m->last_status = 1;
-		return ;
+		return (0);
 	}
 	if (!(ft_isdigit_m(ft_atoi(args[1]))))
 	{
@@ -36,4 +36,5 @@ void	builtin_exit(char **args, t_mothership *m)
 	}
 	clean_up(m, 1, 1);
 	exit(ft_atoi(args[1]));
+	return (0);
 }

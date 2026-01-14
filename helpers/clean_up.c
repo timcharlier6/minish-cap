@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 22:40:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 22:34:25 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 15:09:44 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	free_temp(char **a, char **b, char **c, char **d)
 	}
 }
 
-static void	free_array(char **array)
+void	free_array(char **array)
 {
 	int	i;
 

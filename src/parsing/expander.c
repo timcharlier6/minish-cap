@@ -6,30 +6,11 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:14:59 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 20:30:24 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/13 11:53:31 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static int fill_list(t_sub *sub_tok, t_token *t_list)
-// {
-// 	char *t_list_value_temp;
-
-// 	t_list_value_temp = NULL;
-// 	if (t_list->value)
-// 		free(t_list->value);
-// 	t_list->value = NULL;
-// 	while (sub_tok)
-// 	{
-// 		t_list_value_temp = t_list value
-// 		if (!(t_list->value = 
-// 			ft_strjoin(t_list->value, sub_tok->value)))
-// 				return (0);
-// 		sub_tok = sub_tok->next;
-// 	}
-// 	return (1);
-// }
 
 static int	fill_list(t_sub *sub_tok, t_token *t_list)
 {

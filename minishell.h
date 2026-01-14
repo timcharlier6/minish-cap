@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 22:34:25 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 16:24:56 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 #define PATH_MAX 1024
 
@@ -42,27 +43,20 @@ typedef struct s_mothership
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
 	t_env		*env;
+	char		**env_copy;
 }	t_mothership;
 
-// typedef struct s_i
-// {
-// 	int i; // utilise ?
-// 	int j;
-// 	int y;
-// 	int count;  // utilise ?
-// 	int count_1;
-// 	int count_2;
-// 	int count_3;
-// 	int	flag;
-// 	int error;
-// } t_for_static_indexes;
-
-//helpers
+//helpers TIM
 char		*ft_strncpy(char *s1, char *s2, size_t n);
 char		*ft_strdup(char *s);
 int			ft_strcmp(const char *s1, const char *s2);
-int			ft_strcmp(const char *s1, const char *s2);
-
+char		**ft_split(char *s, char c);
+int			ft_memcmp(const void *s1, const void *s2, size_t n);
+char		*ft_strnstr(char *haystack, char *needle, size_t len);
+char		*ft_substr(char *s, unsigned int start, size_t len);  // doublon ft_strdup?
+int			ft_strchr(char *s, int c);
+int			is_valid_env_var_key(char *arg);
+//helpers CAM
 int 		ft_strlen(char *s);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strncmp_m(char *s1, const char *s2, size_t n);
@@ -77,7 +71,7 @@ int			str_is_only_space(char *str);
 int			str_has_space(char *str, int start);
 int			str_is_char(char *str, int start);
 t_token 	*skip_word_or_adjacents(t_token *list, int skip_current);
-char		*ft_strdup(char *s);
+char		*ft_strdup(char *s);  // doublon ft_substr?
 char		*strdup_max(const char *s, int start, int len);
 char		*ft_strjoin(char *s1, char *s2);
 char 		*ft_strjoin_m(char *s1, char *s2);
@@ -96,6 +90,7 @@ void		free_env_list(t_env **env);
 void		free_subt_list(t_sub **s_list);
 void		free_temp(char **exp, char **whole, char **before_d, char **both);
 void		exit_w_message(void);
+void		free_array(char **array);
 //initialisations et signals
 int			init_mothership(t_mothership **mothership);
 void		signal_handler(int sig);
@@ -118,8 +113,13 @@ int			my_echo(t_cmd_table *cmd);
 int			pwd(void);
 int			cd(t_cmd_table *cmd, t_env *my_env);
 int			my_env(t_env *my_env);
-void		builtin_exit(char **args, t_mothership *m);
+int			export(t_cmd_table *cmd, t_env *my_env);
+int			unset(t_cmd_table *cmd, t_env *env);
+int			builtin_exit(char **args, t_mothership *m);
 //exec
-int			exec(t_mothership *m);
+int			exec(t_mothership *m, char **envp);
+int			exec_external(t_cmd_table *cmd, char **envp);
+char		*find_path(char *cmd, char **envp); // doublon avec command_path_finder ?
+int			command_path_finder(t_mothership *m, t_env *env); // doublon find_path ?
 
 #endif

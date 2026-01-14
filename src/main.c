@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 22:34:25 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 16:55:07 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,27 @@
 //         cmd = cmd->next;
 //     }
 // }
+static char **copy_env(char **original_env, t_mothership *m)
+{
+	int i;
+
+	i = 0;
+	while(original_env[i])
+		i++;
+	m->env_copy = malloc(sizeof(char *) * (i + 1));
+	if (!m->env_copy)
+		return (NULL);
+	i = 0;
+	while(original_env[i])
+	{
+		m->env_copy[i] = ft_strdup(original_env[i]);
+		if (m->env_copy[i] == NULL)
+			return (0);
+		// printf("%s\n%s\n", original_env[i], m->env_copy[i] ); //DEBUGG PRINT
+		i++;
+	}
+	return (m->env_copy);
+}
 
 static int parsing_hub(char *input, t_mothership *m, t_env *env)
 {
@@ -118,7 +139,7 @@ int main(int ac, char **av, char **envp)
         {
 			if (!parsing_hub(input, mothership, mothership->env))
 				break ;
-			exec(mothership);
+			exec(mothership, copy_env(envp, mothership));
 			add_history(input);
 		}
 		clean_up(mothership, 0, 0);
