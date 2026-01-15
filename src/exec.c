@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 14:24:02 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:17:25 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,41 @@ static int	run_builtin(t_main *m, t_cmd_table *cmd)
 	return (0);
 }
 
+static int	handle_redirections(t_cmd_table *cmd)
+{
+	t_redir	*tmp;
+	int		fd;
+
+	tmp = cmd->infile;
+	while (tmp)
+	{
+		if (tmp->type == T_REDIR_IN)
+		{
+			fd = open(tmp->name, O_RDONLY);
+			if (fd == -1)
+				return (perror(tmp->name), 1);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		tmp = tmp->next;
+	}
+	tmp = cmd->outfile;
+	while (tmp)
+	{
+		fd = -1;
+		if (tmp->type == T_REDIR_OUT)
+			fd = open(tmp->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (tmp->type == T_REDIR_APPEND)
+			fd = open(tmp->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
+			return (perror(tmp->name), 1);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 		int pipe_fd[2], t_env *env)
 {
@@ -88,6 +123,8 @@ static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 	}
+	if (handle_redirections(cmd))
+		exit(1);
 	if (is_builtin(cmd->args[0]))
 		exit(run_builtin(m, cmd));
 	else
@@ -148,8 +185,10 @@ int	exec(t_main *m, t_env *env) // use my linked list for env in builtins (evryw
 		|| !m->cmd_table->args[0] || !env) //ajout de !envp
 		return (0);
 	if (!m->cmd_table->next && is_builtin(m->cmd_table->args[0]))
-			return (run_builtin(m, m->cmd_table));
-	return (execute_pipeline(m, pipe_fd, -1, env));
+		m->last_status = run_builtin(m, m->cmd_table);
+	else
+		m->last_status = execute_pipeline(m, pipe_fd, -1, env);
+	return (m->last_status);
 }
 
 // int exec(t_main *m)
