@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 15:34:54 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:43:29 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 	if (is_builtin(cmd->args[0]))
 		exit(run_builtin(m, cmd));
 	else
-		exec_external(cmd, copy_list_to_array(env)); // MODIFS ICI
+		exit(exec_external(cmd, copy_list_to_array(env))); // EXIT CHILD IF EXECVE FAILS
 }
 
 static int	wait_children(pid_t last_pid)
