@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 16:28:40 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:29:35 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ static int	run_builtin(t_main *m, t_cmd_table *cmd)
 		return (unset(cmd, m->env));
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 	{
-		printf("exit\n");
-		clean_up(m, 1, 1);
-		exit(0);
+		builtin_exit(cmd->args, m);
 	}
 	return (0);
 }
