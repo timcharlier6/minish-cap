@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 16:32:36 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:33:58 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,10 @@ static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 	}
+	if (cmd->infile && !handle_redir_in(cmd->infile)) // <--- AJOUT REDIRECTIONS CAM ICI
+		return ;
+	if (cmd->outfile && !handle_redir_out(cmd->outfile)) // <--- AJOUT REDIRECTIONS CAM ICI
+		return ;
 	if (handle_redirections(cmd))
 	 	exit(1);
 	// if (cmd->infile && !handle_redir_in(cmd->infile)) // <--- AJOUT ICI
