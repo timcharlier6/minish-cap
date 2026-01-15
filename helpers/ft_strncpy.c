@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 18:17:50 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 18:31:11 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:04:38 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 char	*ft_strncpy(char *s1, char *s2, size_t n)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-
 	while (s1[i] && i < n)
 	{
 		s2[i] = s1[i];
