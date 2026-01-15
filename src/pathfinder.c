@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:50:43 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/14 15:44:39 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:25:48 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char *find_path_var(t_env *env)
 	return (env_path_line);
 }
 
-int	command_path_finder(t_mothership *m, t_env *env)
+int	command_path_finder(t_main *m, t_env *env)
 {
 	char *path;
 

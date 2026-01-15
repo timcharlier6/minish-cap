@@ -4,7 +4,9 @@
 
 
  Penser a implementer le code d erreur si messages d'erreurs de fonctions
- = updater le mothership->last_status avec le code d erreur en question.
+ = updater le main->last_status avec le code d erreur en question.
 
 
 echo doit avoir l option -n 
+
+env export unset doit utiliser la list cmd

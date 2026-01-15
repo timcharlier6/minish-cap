@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:07:19 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 22:20:53 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:25:48 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 volatile sig_atomic_t g_signal;
 
-int	init_mothership(t_mothership **mothership)
+int	init_main(t_main **main)
 {
-	(*mothership) = ft_calloc(1, sizeof(t_mothership));
-	if (!(*mothership))
+	(*main) = ft_calloc(1, sizeof(t_main));
+	if (!(*main))
 		return (0);
-	(*mothership)->last_status = 0;
+	(*main)->last_status = 0;
 	return (1);
 }
 

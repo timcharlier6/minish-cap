@@ -6,14 +6,14 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/14 16:55:07 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:57:58 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"   
 #include <limits.h>
 
-// static void debugg_print(const t_mothership *m)
+// static void debugg_print(const t_main *m)
 // {
 //     t_cmd_table *cmd;
 //     t_redir     *in;
@@ -49,29 +49,31 @@
 //         cmd = cmd->next;
 //     }
 // }
-static char **copy_env(char **original_env, t_mothership *m)
-{
-	int i;
 
-	i = 0;
-	while(original_env[i])
-		i++;
-	m->env_copy = malloc(sizeof(char *) * (i + 1));
-	if (!m->env_copy)
-		return (NULL);
-	i = 0;
-	while(original_env[i])
-	{
-		m->env_copy[i] = ft_strdup(original_env[i]);
-		if (m->env_copy[i] == NULL)
-			return (0);
-		// printf("%s\n%s\n", original_env[i], m->env_copy[i] ); //DEBUGG PRINT
-		i++;
-	}
-	return (m->env_copy);
-}
+// // est-ce vraiment utile ???
+// static char **copy_env_array(char **original_env, t_main *m)
+// {
+// 	int i;
 
-static int parsing_hub(char *input, t_mothership *m, t_env *env)
+// 	i = 0;
+// 	while(original_env[i])
+// 		i++;
+// 	m->env_copy = malloc(sizeof(char *) * (i + 1));
+// 	if (!m->env_copy)
+// 		return (NULL);
+// 	i = 0;
+// 	while(original_env[i])
+// 	{
+// 		m->env_copy[i] = ft_strdup(original_env[i]);
+// 		if (m->env_copy[i] == NULL)
+// 			return (0);
+// 		// printf("%s\n%s\n", original_env[i], m->env_copy[i] ); //DEBUGG PRINT
+// 		i++;
+// 	}
+// 	return (m->env_copy);
+// }
+
+static int parsing_hub(char *input, t_main *m, t_env *env)
 {
 	int n_commands;
 	(void)env;
@@ -124,28 +126,28 @@ static int filter_input(char *input)
 int main(int ac, char **av, char **envp)
 {
 	char 			*input;
-	t_mothership	*mothership;
+	t_main	*main;
 	(void)ac;
 	(void)av;
 	
 	signal_init();
-	if (!init_mothership(&mothership) || !init_env_list(&mothership->env, envp))
-		return(clean_up(mothership, 1, 1), 1);
+	if (!init_main(&main) || !init_env_list(&main->env, envp))
+		return(clean_up(main, 1, 1), 1);
 	while (1)
 	{
 		if (!(input = readline("minishell > "))) // error or CTRL + D (EOF simulated)
 			exit_w_message();
 		if (filter_input(input))
         {
-			if (!parsing_hub(input, mothership, mothership->env))
+			if (!parsing_hub(input, main, main->env))
 				break ;
-			exec(mothership, copy_env(envp, mothership));
+			exec(main, main->env); //ca pourrait ne pas etre requis de faire une copie ici.
 			add_history(input);
 		}
-		clean_up(mothership, 0, 0);
+		clean_up(main, 0, 0);
 		free(input);
 	}
-	clean_up(mothership, 1, 1);
+	clean_up(main, 1, 1);
 	rl_clear_history();
     return (0);
 }

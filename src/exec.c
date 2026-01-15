@@ -6,18 +6,20 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/14 17:10:08 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:56:29 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int exec_external(t_cmd_table *cmd, char **envp)
+int exec_external(t_cmd_table *cmd, char **envp)  //MODIFS ICI
 {
 	char *path;
 
 	path = NULL;
-	if (!cmd->args || !cmd->args[0])
+	if (!envp) // AJOUT protec execution fonction ds argument
+		return (0);
+	if (!cmd->args || !cmd->args[0]) 
 	{
 		ft_putstr_fd("minishell: command not found\n", 2);
 		return (127);
@@ -49,7 +51,7 @@ static int	is_builtin(char *cmd)
 	return (0);
 }
 
-static int	run_builtin(t_mothership *m, t_cmd_table *cmd)
+static int	run_builtin(t_main *m, t_cmd_table *cmd)
 {
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		return (my_echo(cmd));
@@ -72,8 +74,8 @@ static int	run_builtin(t_mothership *m, t_cmd_table *cmd)
 	return (0);
 }
 
-static void	child_process(t_mothership *m, t_cmd_table *cmd, int prev_fd,
-		int pipe_fd[2], char **envp)
+static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
+		int pipe_fd[2], t_env *env)
 {
 	if (prev_fd != -1)
 	{
@@ -89,7 +91,7 @@ static void	child_process(t_mothership *m, t_cmd_table *cmd, int prev_fd,
 	if (is_builtin(cmd->args[0]))
 		exit(run_builtin(m, cmd));
 	else
-		exec_external(cmd, envp);
+		exec_external(cmd, copy_list_to_array(env)); // MODIFS ICI ICI
 }
 
 static int	wait_children(pid_t last_pid)
@@ -109,7 +111,7 @@ static int	wait_children(pid_t last_pid)
 	return (exit_status);
 }
 
-static int	execute_pipeline(t_mothership *m, int *pipe_fd, int prev_fd, char **envp)
+static int	execute_pipeline(t_main *m, int *pipe_fd, int prev_fd, t_env *env)
 {
 	t_cmd_table	*cmd;
 	pid_t		pid;
@@ -124,7 +126,7 @@ static int	execute_pipeline(t_mothership *m, int *pipe_fd, int prev_fd, char **e
 		if (pid == -1)
 			return (perror("fork"), 1);
 		if (pid == 0)
-			child_process(m, cmd, prev_fd, pipe_fd, envp);
+			child_process(m, cmd, prev_fd, pipe_fd, env);
 		if (prev_fd != -1)
 			close(prev_fd);
 		if (cmd->next)
@@ -137,26 +139,20 @@ static int	execute_pipeline(t_mothership *m, int *pipe_fd, int prev_fd, char **e
 	return (wait_children(pid));
 }
 
-int	exec(t_mothership *m, char **envp)
+// MODIFS ICI --> refonte de la logique pour que execve fasse pas quitter le shell (exemple->/bin/ls) ->  meme si !cmd->next, les execs doivent etre executes ds child process
+int	exec(t_main *m, t_env *env) // use my linked list for env in builtins (evrywhere other than execve) cause it's the one that gets updated.
 {
 	int	pipe_fd[2];
-	int	prev_fd;
 
-	prev_fd = -1;
 	if (!m || !m->cmd_table || !m->cmd_table->args
-		|| !m->cmd_table->args[0] || !envp) //ajout de !envp
+		|| !m->cmd_table->args[0] || !env) //ajout de !envp
 		return (0);
-	if (!m->cmd_table->next)
-	{
-		if (is_builtin(m->cmd_table->args[0])) 
+	if (!m->cmd_table->next && is_builtin(m->cmd_table->args[0]))
 			return (run_builtin(m, m->cmd_table));
-		else 
-			return (exec_external(m->cmd_table, envp));
-	}
-	return (execute_pipeline(m, pipe_fd, prev_fd, envp));
+	return (execute_pipeline(m, pipe_fd, -1, env));
 }
 
-// int exec(t_mothership *m)
+// int exec(t_main *m)
 // {
 // 	if (is_builtin(m) == 2)
 // 	{

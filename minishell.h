@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/14 16:24:56 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:54:19 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_mothership
+typedef struct s_main
 {
-	int			last_status; // on devra stocker le code d erreur, en cas d,erreur, ici.
+	int			last_status; // on devra stocker le code d'erreur, en cas d'erreur, ici.
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
 	t_env		*env;
-	char		**env_copy;
-}	t_mothership;
+	// char		**env_copy;  //UTILE ?  ->fonction static ds main <copy_env_array> pourrait ne pas etre indispensable
+}	t_main;
 
 //helpers TIM
 char		*ft_strncpy(char *s1, char *s2, size_t n);
@@ -82,8 +82,9 @@ void		ft_putendl_fd(char *s, int fd);
 char		*ft_itoa(int n);
 int			ft_isdigit_m(int n);
 long int	ft_atoi(const char *nptr);
+char		**copy_list_to_array(t_env *env);
 //helpers : clean / exit
-void 		clean_up(t_mothership *mothership, int free_m_shell, int free_env);
+void 		clean_up(t_main *main, int free_m_shell, int free_env);
 void		free_token_list(t_token **s_list);
 void		free_redir_list(t_redir **s_list);
 void		free_env_list(t_env **env);
@@ -92,7 +93,7 @@ void		free_temp(char **exp, char **whole, char **before_d, char **both);
 void		exit_w_message(void);
 void		free_array(char **array);
 //initialisations et signals
-int			init_mothership(t_mothership **mothership);
+int			init_main(t_main **main);
 void		signal_handler(int sig);
 void		signal_init();
 int			init_env_list(t_env **env_list, char **envp);
@@ -115,11 +116,11 @@ int			cd(t_cmd_table *cmd, t_env *my_env);
 int			my_env(t_env *my_env);
 int			export(t_cmd_table *cmd, t_env *my_env);
 int			unset(t_cmd_table *cmd, t_env *env);
-int			builtin_exit(char **args, t_mothership *m);
+int			builtin_exit(char **args, t_main *m);
 //exec
-int			exec(t_mothership *m, char **envp);
+int			exec(t_main *m, t_env *env);
 int			exec_external(t_cmd_table *cmd, char **envp);
 char		*find_path(char *cmd, char **envp); // doublon avec command_path_finder ?
-int			command_path_finder(t_mothership *m, t_env *env); // doublon find_path ?
+int			command_path_finder(t_main *m, t_env *env); // doublon find_path ?
 
 #endif

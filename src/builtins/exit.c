@@ -6,13 +6,13 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/13 11:40:12 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:25:48 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_exit(char **args, t_mothership *m)
+int	builtin_exit(char **args, t_main *m)
 {
 	ft_putendl_fd("exit", 2);
 	if (!args[1])

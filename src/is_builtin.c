@@ -6,13 +6,13 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 11:31:18 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/13 11:44:26 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:25:48 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_builtin(t_mothership *m)
+int is_builtin(t_main *m)
 {
 	int got_in;
 

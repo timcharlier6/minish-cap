@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 22:40:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/14 15:09:44 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:25:48 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	free_array(char **array)
 	array = NULL;
 }
 
-//arg2 : 1 = free mothership's shell // arg3 : 1 = free environnement list
-void	clean_up(t_mothership *m, int free_m_shell, int free_env)
+//arg2 : 1 = free main's shell // arg3 : 1 = free environnement list
+void	clean_up(t_main *m, int free_m_shell, int free_env)
 {
 	t_cmd_table	*temp;
 
