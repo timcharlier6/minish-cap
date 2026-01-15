@@ -6,18 +6,18 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 15:09:23 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:34:54 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int exec_external(t_cmd_table *cmd, char **envp)  //MODIFS ICI
+int exec_external(t_cmd_table *cmd, char **envp)
 {
 	char *path;
 
 	path = NULL;
-	if (!envp) // AJOUT protec execution fonction ds argument
+	if (!envp)
 		return (0);
 	if (!cmd->args || !cmd->args[0]) 
 	{
@@ -88,14 +88,14 @@ static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 	}
-	if (cmd->infile && !handle_redir_in(cmd->infile)) // <--- AJOUT ICI
+	if (cmd->infile && !handle_redir_in(cmd->infile)) // <--- AJOUT REDIRECTIONS CAM ICI
 		return ;
-	if (cmd->outfile && !handle_redir_out(cmd->outfile)) // <--- AJOUT ICI
+	if (cmd->outfile && !handle_redir_out(cmd->outfile)) // <--- AJOUT REDIRECTIONS CAM ICI
 		return ;
 	if (is_builtin(cmd->args[0]))
 		exit(run_builtin(m, cmd));
 	else
-		exec_external(cmd, copy_list_to_array(env)); // MODIFS ICI ICI
+		exec_external(cmd, copy_list_to_array(env)); // MODIFS ICI
 }
 
 static int	wait_children(pid_t last_pid)
