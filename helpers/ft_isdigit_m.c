@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit_m.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:55:56 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 17:15:51 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/15 18:49:16 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	ft_isdigit_m(int n)
 {
 	if (n < 10)
-		return ('0' <= n && n <= '9');
+		return (n >= 0 && n <= 9);
 	else
 	{
 		while (n > 9)
 		{
 			ft_isdigit_m(n / 10);
-			return ('0' <= n && n <= '9');
+			return (n >= 0 && n <= 9);
 		}
 	}
 	return (0);
