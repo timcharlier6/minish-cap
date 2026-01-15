@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 18:21:12 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/15 18:34:31 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int exec_external(t_cmd_table *cmd, char **envp)
 	{
 		execve(path, cmd->args, envp);
 		perror("execve");
-		free(path);
-		return (126);
+		return (free(path), 126);
 	}
 	ft_putstr_fd("minishell: command not found\n", 2);
 	return (127);
@@ -67,42 +66,7 @@ static int	run_builtin(t_main *m, t_cmd_table *cmd)
 		return (unset(cmd, m->env));
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 	{
-		builtin_exit(cmd->args, m);
-	}
-	return (0);
-}
-
-static int	handle_redirections(t_cmd_table *cmd)
-{
-	t_redir	*tmp;
-	int		fd;
-
-	tmp = cmd->infile;
-	while (tmp)
-	{
-		if (tmp->type == T_REDIR_IN)
-		{
-			fd = open(tmp->name, O_RDONLY);
-			if (fd == -1)
-				return (perror(tmp->name), 1);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		tmp = tmp->next;
-	}
-	tmp = cmd->outfile;
-	while (tmp)
-	{
-		fd = -1;
-		if (tmp->type == T_REDIR_OUT)
-			fd = open(tmp->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (tmp->type == T_REDIR_APPEND)
-			fd = open(tmp->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd == -1)
-			return (perror(tmp->name), 1);
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-		tmp = tmp->next;
+		return(builtin_exit(cmd->args, m));
 	}
 	return (0);
 }
@@ -174,8 +138,7 @@ static int	execute_pipeline(t_main *m, int *pipe_fd, int prev_fd, t_env *env)
 	return (wait_children(pid));
 }
 
-// MODIFS ICI --> refonte de la logique pour que execve fasse pas quitter le shell (exemple->/bin/ls) ->  meme si !cmd->next, les execs doivent etre executes ds child process
-int	exec(t_main *m, t_env *env) // use my linked list for env in builtins (evrywhere other than execve) cause it's the one that gets updated.
+int	exec(t_main *m, t_env *env)
 {
 	int	pipe_fd[2];
 
@@ -188,13 +151,3 @@ int	exec(t_main *m, t_env *env) // use my linked list for env in builtins (evryw
 		m->last_status = execute_pipeline(m, pipe_fd, -1, env);
 	return (m->last_status);
 }
-
-// int exec(t_main *m)
-// {
-// 	if (is_builtin(m) == 2)
-// 	{
-// 		if (!command_path_finder(m, m->env))
-// 			return (0);
-// 	}
-// 	return(0);
-// }

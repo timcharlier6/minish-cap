@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+         #
+#    By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 20:48:27 by csimonne          #+#    #+#              #
-#    Updated: 2026/01/15 17:24:12 by ticharli         ###   ########.fr        #
+#    Updated: 2026/01/15 18:24:20 by csimonne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ HEADER = minishell.h
 SRC = src/main.c  src/exec.c \
 		src/parsing/tokenisation.c src/parsing/check_syntax.c \
 		src/parsing/command_table.c src/parsing/expander.c \
-		src/parsing/inits_and_signals.c src/error.c src/pathfinder.c \
+		src/parsing/inits_and_signals.c src/error.c \
 		src/parsing/sub_tokens_init.c src/parsing/sub_token_types.c\
 		src/redirections.c \
 		helpers/ft_strlen.c helpers/ft_strncpy.c helpers/ft_atoi.c \
@@ -27,7 +27,8 @@ SRC = src/main.c  src/exec.c \
 		helpers/ft_putendl.c helpers/init_to_zero.c \
 		helpers/strncmp_hub.c helpers/ft_strcmp.c helpers/ft_isdigit_m.c \
 		src/builtins/echo.c src/builtins/pwd.c src/builtins/cd.c \
-		src/builtins/env.c src/builtins/export.c src/builtins/unset.c src/builtins/exit.c \
+		src/builtins/env.c src/builtins/export.c src/builtins/unset.c \
+		src/builtins/exit.c \
 		helpers/path.c helpers/ft_strnstr.c helpers/ft_split.c \
 		helpers/ft_memcmp.c helpers/ft_substr.c helpers/ft_strchr.c
 
