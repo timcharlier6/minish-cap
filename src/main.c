@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/14 18:57:58 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/15 13:59:18 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,10 @@ int main(int ac, char **av, char **envp)
 			exit_w_message();
 		if (filter_input(input))
         {
+			add_history(input);
 			if (!parsing_hub(input, main, main->env))
 				break ;
 			exec(main, main->env); //ca pourrait ne pas etre requis de faire une copie ici.
-			add_history(input);
 		}
 		clean_up(main, 0, 0);
 		free(input);
