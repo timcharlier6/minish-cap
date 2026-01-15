@@ -6,7 +6,7 @@
 #    By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 20:48:27 by csimonne          #+#    #+#              #
-#    Updated: 2026/01/14 18:48:36 by csimonne         ###   ########.fr        #
+#    Updated: 2026/01/15 15:07:48 by csimonne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC = src/main.c  src/exec.c \
 		src/parsing/command_table.c src/parsing/expander.c \
 		src/parsing/inits_and_signals.c src/error.c src/pathfinder.c \
 		src/parsing/sub_tokens_init.c src/parsing/sub_token_types.c\
+		src/redirections.c \
 		helpers/ft_strlen.c helpers/ft_strncpy.c helpers/ft_atoi.c \
 		helpers/ft_space_related.c helpers/strdup_hub.c \
 		helpers/char_search.c helpers/clean_up.c helpers/clean_lists.c \
