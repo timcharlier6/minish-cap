@@ -1,0 +1,12 @@
+command_table.h
+error_messages.h
+file
+helpers
+Makefile
+minishell
+minishell.h
+notes
+obj
+src
+test_out.txt
+token.h
