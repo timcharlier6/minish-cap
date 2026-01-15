@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 14:24:02 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:09:23 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 	}
+	if (cmd->infile && !handle_redir_in(cmd->infile)) // <--- AJOUT ICI
+		return ;
+	if (cmd->outfile && !handle_redir_out(cmd->outfile)) // <--- AJOUT ICI
+		return ;
 	if (is_builtin(cmd->args[0]))
 		exit(run_builtin(m, cmd));
 	else
