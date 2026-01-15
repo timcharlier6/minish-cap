@@ -7,9 +7,5 @@
  = updater le main->last_status avec le code d erreur en question.
 
 
-echo doit avoir l option -n 
-
-env export unset doit utiliser la list cmd
-
 
 mettre is_builtin.c dans les helpers ?

@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 15:07:25 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:05:48 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,7 @@ int			exec(t_main *m, t_env *env);
 int			exec_external(t_cmd_table *cmd, char **envp);
 char		*find_path(char *cmd, char **envp); // doublon avec command_path_finder ?
 int			command_path_finder(t_main *m, t_env *env); // doublon find_path ?
-int			handle_redir_in(t_redir *infile);
-int			handle_redir_out(t_redir *outfile);
+int			handle_redirections(t_cmd_table *cmd);
 
 
 #endif

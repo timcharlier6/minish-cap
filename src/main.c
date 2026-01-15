@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 14:11:01 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:15:17 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ static int filter_input(char *input)
 		return (0);
 	if (input[str_has_space(input, 0)] == '|')
 	{
-		new_line_after_message("parse error near `|'", 0);
+		new_line_after_message("syntax error near `|'", 0);
 		return(add_history(input), 0);
 	}
 	if (input[ft_strlen(input) - 1] == '|' || input[ft_strlen(input) - 1] == '<' 
 		|| input[ft_strlen(input) - 1] == '>')
 	{
-		new_line_after_message("parse error near `\\n'", 0);
+		new_line_after_message("syntax error near `\\n'", 0);
 		return(add_history(input), 0);
 	}
 	if (str_is_only_space(input))
