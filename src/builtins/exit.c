@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 18:57:48 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/16 10:26:02 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int ft_isnumber(char *s)
+{
+	while (s && *s)
+	{
+		if (!(*s >= '0' && *s <= '9'))
+			return 0;
+		s++;
+	}
+	return 1;
+}
 
 int	builtin_exit(char **args, t_main *m)
 {
@@ -27,7 +38,7 @@ int	builtin_exit(char **args, t_main *m)
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		return (1);
 	}
-	if (!(ft_isdigit_m(ft_atoi(args[1]))))
+	if (!ft_isnumber(args[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
