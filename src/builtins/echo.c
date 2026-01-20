@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:42:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/08 18:27:29 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:39:49 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,27 @@ static int	get_echo_fd(t_cmd_table *cmd)
 	return (fd);
 }
 
+static void	handle_flag(int *n_flag, char **args, int *i)
+{
+	while (args[*i] && !ft_strncmp(args[*i], "-n", 3))
+	{
+		*n_flag = 1;
+		(*i)++;
+	}
+}
+
 int	my_echo(t_cmd_table *cmd)
 {
-	int i;
-	int n_flag;
-	int fd;
+	int	i;
+	int	n_flag;
+	int	fd;
 
 	i = 1;
 	n_flag = 0;
-	while (cmd->args[i] && !ft_strncmp(cmd->args[i], "-n", 3))
-	{
-		n_flag = 1;
-		i++;
-	}
 	fd = get_echo_fd(cmd);
 	if (fd == -1)
 		return (1);
+	handle_flag(&n_flag, cmd->args, &i);
 	while (cmd->args[i])
 	{
 		ft_putstr_fd(cmd->args[i], fd);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/20 12:28:41 by ticharli          #+#    #+#             */
+/*   Updated: 2026/01/20 12:29:36 by ticharli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	rm_env_var(t_env **env, const char *key)
@@ -27,7 +39,7 @@ static void	rm_env_var(t_env **env, const char *key)
 
 int	unset(t_cmd_table *cmd, t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (cmd->args[i])

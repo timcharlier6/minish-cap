@@ -6,26 +6,26 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/16 10:26:02 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:41:05 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int ft_isnumber(char *s)
+static int	ft_isnumber(char *s)
 {
 	while (s && *s)
 	{
 		if (!(*s >= '0' && *s <= '9'))
-			return 0;
+			return (0);
 		s++;
 	}
-	return 1;
+	return (1);
 }
 
 int	builtin_exit(char **args, t_main *m)
 {
-	int result;
+	int	result;
 
 	ft_putendl_fd("exit", 2);
 	if (!args[1])
@@ -48,5 +48,5 @@ int	builtin_exit(char **args, t_main *m)
 	}
 	result = ft_atoi(args[1]);
 	clean_up(m, 1, 1);
-	exit (result);
+	exit(result);
 }

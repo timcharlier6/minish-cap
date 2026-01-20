@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   command_table.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 20:33:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/14 18:10:44 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:04:36 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "token.h"
 
 typedef struct s_redir
 {
