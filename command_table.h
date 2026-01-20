@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_table.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 20:33:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:56:01 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:56:07 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 typedef struct s_redir
 {
-    char			*name;
-    t_tok_type		type;
-    int				quotes;
-    struct s_redir	*next;
-}	t_redir;
+	char				*name;
+	t_tok_type			type;
+	int					quotes;
+	struct s_redir		*next;
+}						t_redir;
 
 typedef struct cmd_table
 {
-	char				**args;   // !<a'b'"c">= 3 tokens (via lexer) mais UN SEUL ARG FINAL!
-	t_redir				*infile;    // Utilisé pour < et <<
-	t_redir				*outfile;   // Utilisé pour > et >>
-	struct cmd_table 	*next;
-}	t_cmd_table;
+	char				**args;
+	t_redir				*infile;
+	t_redir				*outfile;
+	struct cmd_table	*next;
+}						t_cmd_table;

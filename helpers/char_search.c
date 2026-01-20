@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:16:06 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 12:11:52 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 18:52:22 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,28 @@ int	char_search_n(char *s, char c)
 	{
 		if (s[i] == c)
 			count++;
+		i++;
+	}
+	return (count);
+}
+
+int	quote_search(char *s, char quote, char other_quote)
+{
+	int	i;
+	int	y;
+	int	count;
+
+	(void)other_quote;
+	i = 0;
+	y = 0;
+	count = 0;
+	y = ft_strlen(s);
+	while ((s[i]) && i < y)
+	{
+		if (s[i] == quote)
+		{
+			count++;
+		}
 		i++;
 	}
 	return (count);

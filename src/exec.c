@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:56:03 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:21:26 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int exec_external(t_cmd_table *cmd, char **envp)
+int	exec_external(t_cmd_table *cmd, char **envp)
 {
-	char *path;
+	char	*path;
 
 	path = NULL;
 	if (!envp)
 		return (0);
-	if (!cmd->args || !cmd->args[0]) 
+	if (!cmd->args || !cmd->args[0])
 		return (ft_putstr_fd("minishell: command not found\n", 2), 127);
-	if (access(cmd->args[0], X_OK) == 0) // chemin direct absolu ou relatif
-	{	
+	if (access(cmd->args[0], X_OK) == 0)
+	{
 		execve(cmd->args[0], cmd->args, envp);
 		perror("execve");
 		return (126);
-    }
+	}
 	path = find_path(cmd->args[0], envp);
 	if (path)
 	{
@@ -63,7 +63,7 @@ static int	run_builtin(t_main *m, t_cmd_table *cmd)
 		return (unset(cmd, m->env));
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 	{
-		return(builtin_exit(cmd->args, m));
+		return (builtin_exit(cmd->args, m));
 	}
 	return (0);
 }
@@ -71,7 +71,7 @@ static int	run_builtin(t_main *m, t_cmd_table *cmd)
 static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 		int pipe_fd[2])
 {
-	t_env 	*env;
+	t_env	*env;
 
 	env = m->env;
 	if (prev_fd != -1)
@@ -86,11 +86,11 @@ static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 		close(pipe_fd[1]);
 	}
 	if (handle_redirections(cmd, env, m->last_status) != 0)
-	 	exit (1);
+		exit(1);
 	if (is_builtin(cmd->args[0]) != 0)
 		exit(run_builtin(m, cmd));
 	else
-		exit(exec_external(cmd, copy_list_to_array(env))); // EXIT CHILD IF EXECVE FAILS
+		exit(exec_external(cmd, copy_list_to_array(env)));
 }
 
 static int	wait_children(pid_t last_pid)
@@ -142,8 +142,8 @@ int	exec(t_main *m, t_env *env)
 {
 	int	pipe_fd[2];
 
-	if (!m || !m->cmd_table || !m->cmd_table->args
-		|| !m->cmd_table->args[0] || !env) //ajout de !envp
+	if (!m || !m->cmd_table || !m->cmd_table->args || !m->cmd_table->args[0]
+		|| !env) // ajout de !envp
 		return (0);
 	if (!m->cmd_table->next && is_builtin(m->cmd_table->args[0]))
 		m->last_status = run_builtin(m, m->cmd_table);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/20 17:20:29 by csimonne          #+#    #+#             */
+/*   Updated: 2026/01/20 17:20:30 by csimonne         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*join_strs(char *str, char *add)
@@ -16,13 +28,13 @@ char	*join_strs(char *str, char *add)
 	return (str);
 }
 
-void free_ptr(void *ptr)
+void	free_ptr(void *ptr)
 {
-    if (ptr)
-    {
-        free(ptr);
-        ptr = NULL;
-    }
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
 }
 
 int	errmsg_cmd(char *command, char *error_message, int error_nb)
@@ -57,4 +69,3 @@ void	errmsg(char *errmsg, char *detail, int quotes)
 	ft_putendl_fd(msg, STDERR_FILENO);
 	free_ptr(msg);
 }
-

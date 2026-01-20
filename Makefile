@@ -6,14 +6,14 @@
 #    By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 20:48:27 by csimonne          #+#    #+#              #
-#    Updated: 2026/01/20 16:30:13 by csimonne         ###   ########.fr        #
+#    Updated: 2026/01/20 17:23:31 by csimonne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #REPERTOIRES-----------------------------------------------------------
 HEADER = minishell.h
 SRC = src/main.c  src/exec.c \
-		src/parsing/tokenisation.c src/parsing/check_syntax.c \
+		src/parsing/tokenisation.c \
 		src/parsing/command_table.c src/parsing/expander.c \
 		src/parsing/inits_and_signals.c src/error.c \
 		src/parsing/sub_tokens_init.c src/parsing/sub_token_types.c\

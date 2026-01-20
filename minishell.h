@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 16:53:21 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 18:25:59 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 
 # define PATH_MAX 1024
 
-struct t_token;
-struct t_cmd_table;
+struct	s_token;
+struct	s_cmd_table;
 
 typedef struct s_env
 {
@@ -38,19 +38,13 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-
 typedef struct s_main
 {
-	int last_status; 
+	int				last_status;
 	t_token			*token_list;
 	t_cmd_table		*cmd_table;
 	t_env			*env;
-	// char		**env_copy;
 }					t_main;
-// char		**env_copy;
-// env_cpy UTILE ?
-//->fonction static ds main <copy_env_array>
-// pourrait ne pas etre indispensable
 
 // helpers TIM
 char				*ft_strncpy(char *s1, char *s2, size_t n);
@@ -64,12 +58,14 @@ char				*get_env_val(t_env *env, char *key);
 void				update_env(t_env *env, char *key, char *value);
 int					update_pwds(t_env *env, char *old, char *path);
 char				*get_target(t_cmd_table *cmd, t_env *env);
-void	quicksort(char **env, int low, int high);
-char	**create_sorted_env_array(t_env *my_env, int count);
-char	*format_env_var(t_env *env);
-int	print_sorted_env(t_env *my_env);
-void	extract_key_value(char *arg, char **key, char **value, int *eq_pos);
-int	update_existing_env(t_env *temp, char *key, char *value, int eq_pos);
+void				quicksort(char **env, int low, int high);
+char				**create_sorted_env_array(t_env *my_env, int count);
+char				*format_env_var(t_env *env);
+int					print_sorted_env(t_env *my_env);
+void				extract_key_value(char *arg, char **key,
+						char **value, int *eq_pos);
+int					update_existing_env(t_env *temp, char *key,
+						char *value, int eq_pos);
 char				*ft_substr(char *s, unsigned int start, size_t len);
 // doublon ft_strdup?
 int					ft_strchr(char *s, int c);
@@ -84,6 +80,7 @@ int					char_search_len(const char *s, const char c, int start,
 						int w_on);
 int					char_search_len_0(const char *s, const char c, int start);
 int					char_search_n(char *s, char c);
+int					quote_search(char *s, char c, char other_quote);
 int					token_word_be_arg_count(t_token *token_list);
 int					redir_token_count(t_token *t_l, t_tok_type typ1,
 						t_tok_type typ2);
@@ -91,7 +88,7 @@ int					str_is_only_space(char *str);
 int					str_has_space(char *str, int start);
 int					str_is_char(char *str, int start);
 t_token				*skip_word_or_adjacents(t_token *list, int skip_current);
-char	*ft_strdup(char *s); // doublon ft_substr?
+char				*ft_strdup(char *s);
 char				*strdup_max(const char *s, int start, int len);
 char				*ft_strjoin(char *s1, char *s2);
 char				*ft_strjoin_m(char *s1, char *s2);
@@ -116,14 +113,12 @@ void				free_temp(char **exp, char **whole, char **before_d,
 void				exit_w_message(void);
 void				free_array(char **array);
 // initialisations et signals
-int					init_main(t_main **main);
 void				signal_handler(int sig);
 void				signal_init(void);
 int					init_env_list(t_env **env_list, char **envp);
 void				init_to_zero(int count, ...);
 t_sub				*init_sub(char *s, t_sub *sub_t, t_env *env, int c_status);
 // minishell : parsing
-void				new_line_after_message(char *message, int error_number);
 int					check_if_builtin(char *input, int i, int res);
 int					token_is_word(t_token **tlist, char *s, int start,
 						int quote_type);
@@ -148,8 +143,7 @@ int					builtin_exit(char **args, t_main *m);
 int					exec(t_main *m, t_env *env);
 int					exec_external(t_cmd_table *cmd, char **envp);
 char				*find_path(char *cmd, char **envp);
-// doublon avec command_path_finder ?
-int	command_path_finder(t_main *m, t_env *env); // doublon find_path ?
-int					handle_redirections(t_cmd_table *cmd, t_env *env, int status);
+int					handle_redirections(t_cmd_table *cmd, t_env *env,
+						int status);
 
 #endif

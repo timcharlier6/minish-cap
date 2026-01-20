@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits_and_signals.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:07:19 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:18:44 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:26:53 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,20 @@
 
 volatile sig_atomic_t	g_signal;
 
-int	init_main(t_main **main)
-{
-	(*main) = ft_calloc(1, sizeof(t_main));
-	if (!(*main))
-		return (0);
-	(*main)->last_status = 0;
-	return (1);
-}
-
 void	signal_handler(int sig)
 {
 	g_signal = sig;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
-	rl_on_new_line(); // prepares readline for a new line
+	rl_on_new_line();
 	rl_redisplay();
 }
 
 void	signal_init(void)
 {
 	g_signal = 0;
-	signal(SIGINT, signal_handler); // SIGINT = CTRL+C (by default)
-	signal(SIGQUIT, SIG_IGN);       // Ctrl+\ ignoré
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 static int	init_envp(char ***envp)
