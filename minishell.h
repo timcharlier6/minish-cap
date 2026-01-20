@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 14:34:04 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:57:24 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 
 # define PATH_MAX 1024
 
-struct	s_token;
-struct	s_cmd_table;
+struct t_token;
+struct t_cmd_table;
 
 typedef struct s_env
 {
@@ -41,11 +41,16 @@ typedef struct s_env
 
 typedef struct s_main
 {
-	int			last_status;
-	t_token		*token_list;
-	t_cmd_table	*cmd_table;
-	t_env		*env;
-}	t_main;
+	int last_status; 
+	t_token			*token_list;
+	t_cmd_table		*cmd_table;
+	t_env			*env;
+	// char		**env_copy;
+}					t_main;
+// char		**env_copy;
+// env_cpy UTILE ?
+//->fonction static ds main <copy_env_array>
+// pourrait ne pas etre indispensable
 
 // helpers TIM
 char				*ft_strncpy(char *s1, char *s2, size_t n);
@@ -144,6 +149,6 @@ int					exec_external(t_cmd_table *cmd, char **envp);
 char				*find_path(char *cmd, char **envp);
 // doublon avec command_path_finder ?
 int	command_path_finder(t_main *m, t_env *env); // doublon find_path ?
-int					handle_redirections(t_cmd_table *cmd);
+int					handle_redirections(t_cmd_table *cmd, t_env *env, int status);
 
 #endif
