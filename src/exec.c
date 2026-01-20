@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:56:03 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:57:17 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,21 @@ static int	wait_children(pid_t last_pid)
 		;
 	return (exit_status);
 }
+
+/*
+flow:
+  - parent:
+      - create two pipes
+      - fork child
+      - write data to pipe1 (write end)
+  - child:
+      - read data from pipe1 (read end)
+      - process data
+      - write result to pipe2 (write end)
+  - parent:
+      - read result from pipe2 (read end)
+      - wait for child to exit
+*/
 
 static int	execute_pipeline(t_main *m, int *pipe_fd, int prev_fd)
 {

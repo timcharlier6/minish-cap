@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:28:31 by ticharli          #+#    #+#             */
-/*   Updated: 2026/01/20 12:57:05 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 16:51:47 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	add_new_env(t_env *last, char *key, char *value)
 {
 	t_env	*new_node;
 
+	if (!last)
+		return (1);
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
 	{
@@ -29,8 +31,6 @@ static int	add_new_env(t_env *last, char *key, char *value)
 	new_node->next = NULL;
 	if (last)
 		last->next = new_node;
-	else
-		free(new_node);
 	return (0);
 }
 
