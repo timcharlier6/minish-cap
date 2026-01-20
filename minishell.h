@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 18:25:59 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 19:22:35 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char				*ft_substr(char *s, unsigned int start, size_t len);
 int					ft_strchr(char *s, int c);
 int					is_valid_env_var_key(char *arg);
 // helpers CAM
+
+int					check_unclosed_quotes(char *input);
 int					ft_strlen(char *s);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_strncmp_m(char *s1, const char *s2, size_t n);

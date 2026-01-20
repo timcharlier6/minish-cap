@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 18:25:15 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 19:22:10 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static int	parsing_hub(char *input, t_main *m, t_env *env)
 	return (1);
 }
 
+
+
 static int	filter_input(char *input)
 {
 	if (input[0] == '\0')
@@ -72,8 +74,7 @@ static int	filter_input(char *input)
 		rl_redisplay();
 		return (0);
 	}
-	if (((quote_search(input, '\'', '\"')) % 2 != 0)
-		|| ((quote_search(input, '\"', '\'')) % 2 != 0))
+	if (check_unclosed_quotes(input))
 	{
 		new_line_after_message(NULL);
 		return (add_history(input), 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:16:06 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 18:52:22 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 19:22:22 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,24 @@ int	quote_search(char *s, char quote, char other_quote)
 		i++;
 	}
 	return (count);
+}
+
+int	check_unclosed_quotes(char *input)
+{
+	int	i;
+	int	single_quote;
+	int	double_quote;
+
+	i = 0;
+	single_quote = 0;
+	double_quote = 0;
+	while (input[i])
+	{
+		if (input[i] == '\'' && !double_quote)
+			single_quote = !single_quote;
+		else if (input[i] == '\"' && !single_quote)
+			double_quote = !double_quote;
+		i++;
+	}
+	return (single_quote || double_quote);
 }
