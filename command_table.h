@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 20:33:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 13:04:36 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:56:01 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ typedef struct s_redir
 {
     char			*name;
     t_tok_type		type;
+    int				quotes;
     struct s_redir	*next;
 }	t_redir;
 

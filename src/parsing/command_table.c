@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:04:50 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 16:43:04 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 16:52:20 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int is_redir_in(t_redir **infile, t_token *token_list, int n_of_redirs)
 	(*infile)->type = token_list->type;
 	(*infile)->name = strdup_max(token_list->next->value, 0, 
 		ft_strlen(token_list->next->value));
+	(*infile)->quotes = token_list->next->quotes;
 	if(!((*infile)->name))			
 		return (0);
 	token_list = token_list->next;

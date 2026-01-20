@@ -3,16 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 15:03:46 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 17:30:32 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:56:03 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	handle_heredoc(t_redir *infile)
+static char	*expand_heredoc_line(char *line, t_env *env, int status)
+{
+	t_sub	*sub_list;
+	t_sub	*temp;
+	char	*res;
+	char	*join;
+
+	sub_list = init_sub(line, NULL, env, status);
+	if (!sub_list)
+		return (ft_strdup(""));
+	res = ft_strdup("");
+	temp = sub_list;
+	while (temp)
+	{
+		join = ft_strjoin(res, temp->value);
+		free(res);
+		res = join;
+		temp = temp->next;
+	}
+	free_subt_list(&sub_list);
+	return (res);
+}
+
+static int	handle_heredoc(t_redir *infile, t_env *env, int status)
 {
 	int		pipe_fd[2];
 	char	*line;
@@ -30,6 +53,12 @@ static int	handle_heredoc(t_redir *infile)
 			free(line);
 			break ;
 		}
+		if (infile->quotes == 0 && ft_strchr(line, '$') != -1)
+		{
+			char *expanded = expand_heredoc_line(line, env, status);
+			free(line);
+			line = expanded;
+		}
 		// On écrit la ligne dans le pipe avec un retour à la ligne
 		ft_putstr_fd(line, pipe_fd[1]);
 		ft_putstr_fd("\n", pipe_fd[1]);
@@ -41,7 +70,7 @@ static int	handle_heredoc(t_redir *infile)
 	return (pipe_fd[0]);
 }
 
-static int is_redir_in(t_redir *infile)
+static int	is_redir_in(t_redir *infile, t_env *env, int status)
 {
 	int		fd;
 
@@ -49,7 +78,7 @@ static int is_redir_in(t_redir *infile)
 	if (infile->type == T_REDIR_IN)
 		fd = open(infile->name, O_RDONLY);
 	else if (infile->type == T_HEREDOC)
-		fd = handle_heredoc(infile);
+		fd = handle_heredoc(infile, env, status);
 	if (fd == -1)
 		return (perror(infile->name), 1);
 	dup2(fd, STDIN_FILENO);
@@ -73,7 +102,7 @@ static int is_redir_out(t_redir *outfile)
 	return (0);
 }
 
-int	handle_redirections(t_cmd_table *cmd)
+int	handle_redirections(t_cmd_table *cmd, t_env *env, int status)
 {
 	t_redir *infile_temp;
 	t_redir *outfile_temp;
@@ -82,7 +111,7 @@ int	handle_redirections(t_cmd_table *cmd)
 	outfile_temp = cmd->outfile;
 	while (infile_temp)
 	{
-		if (is_redir_in(infile_temp) != 0)
+		if (is_redir_in(infile_temp, env, status) != 0)
 			return (1);
 		infile_temp = infile_temp->next;
 	}
