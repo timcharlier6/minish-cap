@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_type_counter.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 17:22:54 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 22:00:56 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:12:11 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	token_word_be_arg_count(t_token *token_list)
 {
-	int count;
+	int	count;
 
 	count = 0;
-	while(token_list && token_list->type != T_PIPE)
+	while (token_list && token_list->type != T_PIPE)
 	{
 		if (token_list->type == T_WORD)
 		{
@@ -25,7 +25,7 @@ int	token_word_be_arg_count(t_token *token_list)
 			token_list = token_list->next;
 		}
 		else if (token_list->type == T_PIPE)
-			return(count);
+			return (count);
 		else if (token_list->type == T_WORD_ADJ)
 		{
 			token_list = skip_word_or_adjacents(token_list, 0);
@@ -34,18 +34,18 @@ int	token_word_be_arg_count(t_token *token_list)
 		else
 			token_list = skip_word_or_adjacents(token_list, 1);
 	}
-	return(count);
+	return (count);
 }
 
 // enter the type you want to count as 2nd argument &&|| 3rd arg.
 int	redir_token_count(t_token *t_l, t_tok_type typ1, t_tok_type typ2)
 {
-	int count;
+	int	count;
 
 	count = 0;
-	while(t_l)
+	while (t_l)
 	{
-		if(t_l->type == typ1 || t_l->type == typ2)
+		if (t_l->type == typ1 || t_l->type == typ2)
 		{
 			count++;
 		}
@@ -53,7 +53,7 @@ int	redir_token_count(t_token *t_l, t_tok_type typ1, t_tok_type typ2)
 		if (!t_l)
 			break ;
 		if (t_l->type == T_PIPE)
-			break;
+			break ;
 	}
-	return(count);
+	return (count);
 }

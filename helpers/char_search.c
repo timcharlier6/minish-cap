@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   char_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:16:06 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 21:59:51 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:11:52 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//returns len before c, or 0 if not found. starts from start.
+// returns len before c, or 0 if not found. starts from start.
 // w_on = warning message on
 int	char_search_len(const char *s, const char c, int start, int w_on)
 {
@@ -22,7 +22,7 @@ int	char_search_len(const char *s, const char c, int start, int w_on)
 	if (!s && w_on == 1)
 		printf("Parsing Error : char searching function ->empty string.\n");
 	if (!s && w_on == 0)
-		return(0);
+		return (0);
 	while (s[start + i])
 	{
 		i++;
@@ -38,7 +38,7 @@ int	char_search_len_0(const char *s, const char c, int start)
 
 	i = 0;
 	if (!s)
-		return(0);
+		return (0);
 	while (s[start + i])
 	{
 		if (s[start + i] == c)
@@ -48,7 +48,7 @@ int	char_search_len_0(const char *s, const char c, int start)
 	return (0);
 }
 
-//returns 'n' of elements, or 0 if not found
+// returns 'n' of elements, or 0 if not found
 int	char_search_n(char *s, char c)
 {
 	int	i;

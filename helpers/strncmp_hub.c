@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strncmp_hub.c                                          :+:      :+:    :+:   */
+/*   strncmp_hub.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:45:58 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/07 16:37:26 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:18:39 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//S not NULL -> returns the number of valid env variable chars in input.
-//C not NULL -> returns 1 if char is valid var char, else returns 0.
+// S not NULL -> returns the number of valid env variable chars in input.
+// C not NULL -> returns 1 if char is valid var char, else returns 0.
 int	is_valid_var_char(const char *s, char c)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (!s && !c)
@@ -32,16 +32,16 @@ int	is_valid_var_char(const char *s, char c)
 	}
 	if (c)
 	{
-		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-			|| (c >= '0' && c <= '9') || c == '_')
-			return(1);
+		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'
+				&& c <= '9') || c == '_')
+			return (1);
 	}
 	return (count);
 }
 
 int	is_not_sv_separator(const char *s, char c)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (!s && !c)
@@ -57,9 +57,9 @@ int	is_not_sv_separator(const char *s, char c)
 	}
 	if (c)
 	{
-		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-			|| (c >= '0' && c <= '9') || c == '_')
-			return(1);
+		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'
+				&& c <= '9') || c == '_')
+			return (1);
 	}
 	return (count);
 }
@@ -67,7 +67,7 @@ int	is_not_sv_separator(const char *s, char c)
 // checks the validity of all chars after <s2 is key name>.
 int	ft_strncmp_exp(const char *s1, const char *s2)
 {
-	int len;
+	int	len;
 
 	len = is_valid_var_char(s1, 0);
 	while ((*s1 || *s2) && len)
@@ -100,7 +100,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-//runs the chain until difference is found. ret 0 if: no diff || n->end of s2). 
+// runs the chain until difference is found. ret 0 if: no diff || n->end of s2).
 int	ft_strncmp_m(char *s1, const char *s2, size_t n)
 {
 	unsigned int	i;

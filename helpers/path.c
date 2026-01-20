@@ -6,11 +6,12 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:21:08 by ticharli          #+#    #+#             */
-/*   Updated: 2026/01/13 18:28:11 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:20:37 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 static char	**find_paths(char **envp)
 {
 	char	**paths;
@@ -59,8 +60,8 @@ static char	*search_in_paths(char **paths, char *cmd)
 
 char	*find_path(char *cmd, char **envp)
 {
-	char	**paths;
-	char	*path;
+	char **paths;
+	char *path;
 
 	paths = find_paths(envp);
 	if (!paths)
