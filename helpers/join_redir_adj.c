@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_syntax.c                                     :+:      :+:    :+:   */
+/*   join_redir_adj.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:18:57 by csimonne         ###   ########.fr       */
+/*   Created: 2026/01/20 16:18:12 by csimonne          #+#    #+#             */
+/*   Updated: 2026/01/20 16:43:47 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "error_messages.h"
 
-// see error_macros inside this function to define error_number
-void	new_line_after_message(char *message, int error_number)
+int join_redir_adj(t_token *token_list, t_redir **in_out)
 {
-	static char *error_macros[] = {CMD_NF, SYN1};
-	if (message == NULL)
-		printf("%s\n", error_macros[error_number]);
-	else
-		printf("%s%s\n", error_macros[error_number], message);
-	rl_redisplay();
+	if (!token_list || token_list->type != T_WORD_ADJ)
+		return (1);
+    while (token_list && token_list->type == T_WORD_ADJ)
+    {
+        (*in_out)->name = ft_strjoin_m((*in_out)->name, token_list->value);
+        if (!(*in_out)->name)
+            return (0);
+        token_list = token_list->next;
+    }
+	return (1);
 }

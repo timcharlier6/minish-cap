@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 12:10:53 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:55:15 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static	int parsing_hub(char *input, t_main *m, t_env *env)
 	if (!(m->token_list = expander
 		(m->token_list, env, m->token_list, &m->last_status)))
 		return (0);
-	if (!(m->cmd_table = parsing(m->token_list, n_commands, n_commands)))
+	if (!(m->cmd_table = parsing(m->token_list, n_commands, n_commands, 0)))
 		return (0);
 	// debugg_print(m);
 	return(1);

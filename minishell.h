@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 14:34:04 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 16:29:47 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int					ft_isdigit_m(int n);
 long int			ft_atoi(const char *nptr);
 char				**copy_list_to_array(t_env *env);
 int					inc_shlvl(t_env *env);
+int					join_redir_adj(t_token *token_list, t_redir **outfile);
 // helpers : clean / exit
 void				clean_up(t_main *main, int free_m_shell, int free_env);
 void				free_token_list(t_token **s_list);
@@ -122,8 +123,8 @@ int					check_if_builtin(char *input, int i, int res);
 int					token_is_word(t_token **tlist, char *s, int start,
 						int quote_type);
 t_token				*tokenisation(char *input, t_token *tlist, int i);
-t_cmd_table			*parsing(t_token *s_tlist, int number_of_cmds,
-						int number_of_cmds2);
+t_cmd_table			*parsing(t_token *tlist, int n_cmd,
+						int n_cmdcp, t_cmd_table *head);
 int					clean_all_quotes(t_token *list);
 int					errmsg_cmd(char *command, char *error_message,
 						int error_nb);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:42:40 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 16:06:41 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int normal_exit(t_main *m)
 int	builtin_exit(char **args, t_main *m)
 {
 	int	result;
-	int	status;
 
 	ft_putendl_fd("exit", 2);
 	if (!args[1])
