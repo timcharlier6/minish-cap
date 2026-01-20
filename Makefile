@@ -6,14 +6,14 @@
 #    By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 20:48:27 by csimonne          #+#    #+#              #
-#    Updated: 2026/01/20 14:35:40 by csimonne         ###   ########.fr        #
+#    Updated: 2026/01/20 17:23:31 by csimonne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #REPERTOIRES-----------------------------------------------------------
 HEADER = minishell.h
 SRC = src/main.c  src/exec.c \
-		src/parsing/tokenisation.c src/parsing/check_syntax.c \
+		src/parsing/tokenisation.c \
 		src/parsing/command_table.c src/parsing/expander.c \
 		src/parsing/inits_and_signals.c src/error.c \
 		src/parsing/sub_tokens_init.c src/parsing/sub_token_types.c\
@@ -22,7 +22,7 @@ SRC = src/main.c  src/exec.c \
 		helpers/ft_space_related.c helpers/strdup_hub.c \
 		helpers/char_search.c helpers/clean_up.c helpers/clean_lists.c \
 		helpers/token_type_counter.c helpers/skip_word_or_adjacents.c \
-		helpers/ft_calloc.c helpers/ft_strjoin_hub.c \
+		helpers/ft_calloc.c helpers/ft_strjoin_hub.c helpers/join_redir_adj.c \
 		helpers/ft_putstr_fd.c helpers/ft_itoa.c helpers/copy_list_to_array.c \
 		helpers/ft_putendl.c helpers/init_to_zero.c helpers/cd_helpers.c \
 		helpers/export_helpers.c helpers/export_helpers2.c helpers/inc_shlvl.c \

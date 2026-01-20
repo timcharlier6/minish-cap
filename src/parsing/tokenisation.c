@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:52:58 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 22:00:56 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:47:29 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ static int	add_token(t_token **lst, t_tok_type type, char *s, t_quote_type q)
 	return ((*temp)->next = new, inc);
 }
 
-//returns: i = (starting point + found length)
-//quotes check inside
-// line 64 -> end of WORD = other WORD (no space)
 int	token_is_word(t_token **tlist, char *s, int start, int quote_type)
 {
 	int	len;

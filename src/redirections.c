@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 15:03:46 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:56:03 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:53:28 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,50 +35,44 @@ static char	*expand_heredoc_line(char *line, t_env *env, int status)
 	return (res);
 }
 
-static int	handle_heredoc(t_redir *infile, t_env *env, int status)
+static int	handle_heredoc(t_redir *infile, t_env *env, int status, char *line)
 {
 	int		pipe_fd[2];
-	char	*line;
+	char	*expanded;
 
+	expanded = NULL;
 	if (pipe(pipe_fd) == -1)
 		return (perror("heredoc pipe"), -1);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break ;
-		// Si la ligne est exactement le délimiteur, on s'arrête
-		if (ft_strcmp(line, infile->name) == 0)
+		if (!line || ft_strcmp(line, infile->name) == 0)
 		{
 			free(line);
 			break ;
 		}
 		if (infile->quotes == 0 && ft_strchr(line, '$') != -1)
 		{
-			char *expanded = expand_heredoc_line(line, env, status);
+			expanded = expand_heredoc_line(line, env, status);
 			free(line);
 			line = expanded;
 		}
-		// On écrit la ligne dans le pipe avec un retour à la ligne
 		ft_putstr_fd(line, pipe_fd[1]);
 		ft_putstr_fd("\n", pipe_fd[1]);
 		free(line);
 	}
-	// On ferme l'écriture pour que le lecteur reçoive EOF
-	close(pipe_fd[1]);
-	// On renvoie le bout de lecture pour le dup2
-	return (pipe_fd[0]);
+	return (close(pipe_fd[1]), pipe_fd[0]);
 }
 
 static int	is_redir_in(t_redir *infile, t_env *env, int status)
 {
-	int		fd;
+	int	fd;
 
 	fd = -1;
 	if (infile->type == T_REDIR_IN)
 		fd = open(infile->name, O_RDONLY);
 	else if (infile->type == T_HEREDOC)
-		fd = handle_heredoc(infile, env, status);
+		fd = handle_heredoc(infile, env, status, 0);
 	if (fd == -1)
 		return (perror(infile->name), 1);
 	dup2(fd, STDIN_FILENO);
@@ -86,9 +80,9 @@ static int	is_redir_in(t_redir *infile, t_env *env, int status)
 	return (0);
 }
 
-static int is_redir_out(t_redir *outfile)
+static int	is_redir_out(t_redir *outfile)
 {
-	int fd;
+	int	fd;
 
 	fd = -1;
 	if (outfile->type == T_REDIR_OUT)
@@ -104,8 +98,8 @@ static int is_redir_out(t_redir *outfile)
 
 int	handle_redirections(t_cmd_table *cmd, t_env *env, int status)
 {
-	t_redir *infile_temp;
-	t_redir *outfile_temp;
+	t_redir	*infile_temp;
+	t_redir	*outfile_temp;
 
 	infile_temp = cmd->infile;
 	outfile_temp = cmd->outfile;
@@ -124,5 +118,5 @@ int	handle_redirections(t_cmd_table *cmd, t_env *env, int status)
 	return (0);
 }
 
-// O_WRONLY permet l'écriture, O_CREAT crée le fichier s'il n'existe pas, 
+// O_WRONLY permet l'écriture, O_CREAT crée le fichier s'il n'existe pas,
 // et O_TRUNC le vide s'il existe déjà.

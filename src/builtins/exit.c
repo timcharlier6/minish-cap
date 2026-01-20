@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:43:33 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:54:24 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	ft_isnumber(char *s)
 	return (1);
 }
 
-static int normal_exit(t_main *m)
+static int	normal_exit(t_main *m)
 {
-	int status;
+	int	status;
 
 	status = m->last_status;
 	clean_up(m, 1, 1);

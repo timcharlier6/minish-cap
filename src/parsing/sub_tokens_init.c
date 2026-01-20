@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 16:38:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 22:25:05 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:47:06 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	is_text(char *str, t_sub *sub_t, int len);
 int	is_var(char *str, t_sub *sub_t, t_env *env, int len);
-int	is_solo_dollar(t_sub *sub_t);
 int	is_status(t_sub *sub_t, int current_status);
 
 static int	is_not_sv_separator_char(char s)
@@ -72,7 +71,7 @@ static t_sub	*new_token(t_sub *sub_t)
 	return (sub_t);
 }
 
-t_sub	*is_empty(t_sub *sub_t)
+static t_sub	*is_empty(t_sub *sub_t)
 {
 	sub_t = calloc(1, sizeof(t_sub));
 	if (!sub_t)
@@ -84,17 +83,13 @@ t_sub	*is_empty(t_sub *sub_t)
 	return (sub_t);
 }
 
-//on analyse toujours a partir du char AVANT la string. dollar? vide? etc
-// Un nom de variable doit obligatoirement commencer par une lettre ou '_'. 
-// -> sinon txt
 t_sub	*init_sub(char *s, t_sub *sub_t, t_env *env, int c_status)
 {
-	int			i;
-	int			watch_i;
+	int		i;
+	int		watch_i;
 	t_sub	*sub_t_head;
 
-	i = 0;
-	init_to_zero(3, &watch_i, &sub_t, &sub_t_head);
+	init_to_zero(4, &i, &watch_i, &sub_t, &sub_t_head);
 	if (s[i] == '\0')
 		return (sub_t = is_empty(sub_t));
 	while (s[i])
@@ -106,9 +101,7 @@ t_sub	*init_sub(char *s, t_sub *sub_t, t_env *env, int c_status)
 			sub_t_head = sub_t;
 		if (s[i] == '$' && (s[i + 1] == '?'))
 			i += is_status(sub_t, c_status);
-		else if (s[i] == '$' && is_not_sv_separator(&s[i], 0, 1) == 1)
-			i += is_solo_dollar(sub_t);
-		else if (s[i] == '$')
+		else if (s[i] == '$' && is_not_sv_separator(&s[i], 0, 1) != 1)
 			i += is_var(&s[i], sub_t, env, is_not_sv_separator(&s[i], 0, 0));
 		else
 			i += is_text(&s[i], sub_t, is_not_sv_separator(&s[i], 0, 1));
