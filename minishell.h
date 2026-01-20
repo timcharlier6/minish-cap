@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 17:05:48 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:25:12 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,10 @@ typedef struct s_env
 
 typedef struct s_main
 {
-	int			last_status; // on devra stocker le code d'erreur, en cas d'erreur, ici.
+	int			last_status;
 	t_token		*token_list;
 	t_cmd_table	*cmd_table;
 	t_env		*env;
-	// char		**env_copy;  //UTILE ?  ->fonction static ds main <copy_env_array> pourrait ne pas etre indispensable
 }	t_main;
 
 //helpers TIM
