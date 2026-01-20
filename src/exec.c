@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 18:45:56 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:04:40 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	run_builtin(t_main *m, t_cmd_table *cmd)
 		return (pwd());
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		return (cd(cmd, m->env));
-	else if (ft_strcmp(cmd->args[0], "env") == 0)
+	else if (ft_strcmp(cmd->args[0], "env") == 0 && !cmd->args[1])
 		return (my_env(m->env));
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		return (export(cmd, m->env));
