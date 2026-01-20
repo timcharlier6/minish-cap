@@ -9,3 +9,8 @@
 
 
 mettre is_builtin.c dans les helpers ?
+
+
+À l'école 42, les correcteurs testent systématiquement le "Empty Env" (env -i). 
+Ton shell doit être capable de survivre et de fonctionner 
+même si l'environnement est vide au démarrage.

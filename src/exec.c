@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 12:51:55 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:36:11 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int exec_external(t_cmd_table *cmd, char **envp)
 	if (!cmd->args || !cmd->args[0]) 
 		return (ft_putstr_fd("minishell: command not found\n", 2), 127);
 	if (access(cmd->args[0], X_OK) == 0) // chemin direct absolu ou relatif
-	{
-			
+	{	
 		execve(cmd->args[0], cmd->args, envp);
 		perror("execve");
 		return (126);
@@ -75,8 +74,6 @@ static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 	t_env 	*env;
 
 	env = m->env;
-	if (ft_strcmp(cmd->args[0], "./minishell") == 0)
-		inc_shlvl(env);
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, STDIN_FILENO);

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   copy_list_to_array.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 18:29:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/14 19:21:37 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:24:11 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *assemble(t_env *env, char *env_line)
+static char	*assemble(t_env *env, char *env_line)
 {
-	char *temp;
+	char	*temp;
 
 	temp = NULL;
 	env_line = ft_strjoin(env->key, "=");
@@ -31,15 +31,15 @@ static char *assemble(t_env *env, char *env_line)
 	return (env_line);
 }
 
-char **copy_list_to_array(t_env *env)
+char	**copy_list_to_array(t_env *env)
 {
-	char 	**env_copy;
-	t_env 	*head;
-	int 	i;
+	char	**env_copy;
+	t_env	*head;
+	int		i;
 
 	head = env;
 	i = 0;
-	while(env)
+	while (env)
 	{
 		i++;
 		env = env->next;
@@ -49,7 +49,7 @@ char **copy_list_to_array(t_env *env)
 	if (!env_copy)
 		return (NULL);
 	i = 0;
-	while(env)
+	while (env)
 	{
 		env_copy[i] = assemble(env, env_copy[i]);
 		if (!env_copy[i])

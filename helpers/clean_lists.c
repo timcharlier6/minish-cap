@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   clean_lists.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 22:40:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/12 20:30:24 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:25:31 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void free_token_list(t_token **s_list)
+void	free_token_list(t_token **s_list)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = 0;
-    if (!s_list || !*s_list)
+	if (!s_list || !*s_list)
 		return ;
-	while(*s_list)
+	while (*s_list)
 	{
 		temp = (*s_list)->next;
 		if ((*s_list)->value)
@@ -33,14 +33,14 @@ void free_token_list(t_token **s_list)
 	}
 }
 
-void free_redir_list(t_redir **s_list)
+void	free_redir_list(t_redir **s_list)
 {
-	t_redir *temp;
+	t_redir	*temp;
 
 	temp = 0;
-    if (!s_list || !*s_list)
+	if (!s_list || !*s_list)
 		return ;
-	while(*s_list)
+	while (*s_list)
 	{
 		temp = (*s_list)->next;
 		if ((*s_list)->name)
@@ -56,12 +56,12 @@ void free_redir_list(t_redir **s_list)
 
 void	free_env_list(t_env **env)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	temp = 0;
-    if (!env|| !*env)
+	if (!env || !*env)
 		return ;
-	while(*env)
+	while (*env)
 	{
 		temp = (*env)->next;
 		if ((*env)->key)
@@ -80,14 +80,14 @@ void	free_env_list(t_env **env)
 	}
 }
 
-void free_subt_list(t_sub **s_list)
+void	free_subt_list(t_sub **s_list)
 {
-	t_sub *temp;
+	t_sub	*temp;
 
 	temp = 0;
-    if (!s_list || !*s_list)
+	if (!s_list || !*s_list)
 		return ;
-	while(*s_list)
+	while (*s_list)
 	{
 		temp = (*s_list)->next;
 		if ((*s_list)->value)
@@ -100,4 +100,3 @@ void free_subt_list(t_sub **s_list)
 		*s_list = temp;
 	}
 }
-

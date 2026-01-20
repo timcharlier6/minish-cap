@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin_hub.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/20 12:14:45 by ticharli          #+#    #+#             */
+/*   Updated: 2026/01/20 12:17:05 by ticharli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -37,7 +48,7 @@ char	*ft_strjoin_len(char *s1, char *s2, int len)
 	i = 0;
 	s = ft_calloc(len + 1, sizeof(char));
 	if (!s)
-	return (NULL);
+		return (NULL);
 	while (s1 && s1[i] && i < len)
 	{
 		s[i] = s1[i];
@@ -53,15 +64,13 @@ char	*ft_strjoin_len(char *s1, char *s2, int len)
 	return (s);
 }
 
-#include "minishell.h"
-
-char *ft_strjoin_m(char *s1, char *s2)
+char	*ft_strjoin_m(char *s1, char *s2)
 {
-    char    *new;
-    int     i;
-    int     j;
+	char	*new;
+	int		i;
+	int		j;
 	int		s1_len;
-	
+
 	s1_len = 0;
 	if (s1)
 		s1_len = ft_strlen(s1);

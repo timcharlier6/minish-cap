@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_to_zero.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 15:04:50 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/06 15:08:02 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:22:22 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdarg.h>
-#include <stdlib.h>
 
 void	init_to_zero(int count, ...)
 {

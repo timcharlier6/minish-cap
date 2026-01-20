@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:07:19 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/14 17:25:48 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:34:41 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,5 @@ int	init_env_list(t_env **env_list, char **envp)
 			*env_list = new_node;
 		}
 	}
-	return (1);
+	return (inc_shlvl(*env_list));
 }

@@ -6,11 +6,12 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:21:08 by ticharli          #+#    #+#             */
-/*   Updated: 2026/01/13 18:28:11 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:21:32 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 static char	**find_paths(char **envp)
 {
 	char	**paths;

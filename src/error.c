@@ -57,3 +57,4 @@ void	errmsg(char *errmsg, char *detail, int quotes)
 	ft_putendl_fd(msg, STDERR_FILENO);
 	free_ptr(msg);
 }
+
