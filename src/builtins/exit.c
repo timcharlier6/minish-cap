@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 12:41:05 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:42:40 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,23 @@ static int	ft_isnumber(char *s)
 	return (1);
 }
 
+static int normal_exit(t_main *m)
+{
+	int status;
+
+	status = m->last_status;
+	clean_up(m, 1, 1);
+	exit(status);
+}
+
 int	builtin_exit(char **args, t_main *m)
 {
 	int	result;
+	int	status;
 
 	ft_putendl_fd("exit", 2);
 	if (!args[1])
-	{
-		clean_up(m, 1, 1);
-		exit(m->last_status);
-	}
+		normal_exit(m);
 	if (args[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);

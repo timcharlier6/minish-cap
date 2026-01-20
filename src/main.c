@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/15 17:15:17 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:10:53 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@
 // 	return (m->env_copy);
 // }
 
-static int parsing_hub(char *input, t_main *m, t_env *env)
+static	int parsing_hub(char *input, t_main *m, t_env *env)
 {
-	int n_commands;
-	(void)env;
+	int	n_commands;
 
 	n_commands = 0;
 	n_commands = char_search_n(input, '|') + 1;
@@ -96,7 +95,7 @@ static int parsing_hub(char *input, t_main *m, t_env *env)
 
 static int filter_input(char *input)
 {
-	if (input[0] == '\0') // blank entry
+	if (input[0] == '\0')
 		return (0);
 	if (input[str_has_space(input, 0)] == '|')
 	{
@@ -115,7 +114,7 @@ static int filter_input(char *input)
 		return(0);
 	}
 	if (((char_search_n(input, '\'')) % 2 != 0) || 
-		((char_search_n(input, '\"')) % 2 != 0)) // not pair number of quotes '
+		((char_search_n(input, '\"')) % 2 != 0))
 	{
 		new_line_after_message(NULL, 1);
 		return(add_history(input), 0);
@@ -125,7 +124,7 @@ static int filter_input(char *input)
 
 int main(int ac, char **av, char **envp)
 {
-	char 			*input;
+	char	*input;
 	t_main	*main;
 	(void)ac;
 	(void)av;
@@ -142,7 +141,7 @@ int main(int ac, char **av, char **envp)
 			add_history(input);
 			if (!parsing_hub(input, main, main->env))
 				break ;
-			exec(main, main->env); //ca pourrait ne pas etre requis de faire une copie ici.
+			exec(main, main->env);
 		}
 		clean_up(main, 0, 0);
 		free(input);

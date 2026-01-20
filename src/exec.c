@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:04:40 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:05:56 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,9 @@ int exec_external(t_cmd_table *cmd, char **envp)
 	if (!envp)
 		return (0);
 	if (!cmd->args || !cmd->args[0]) 
-	{
-		ft_putstr_fd("minishell: command not found\n", 2);
-		return (127);
-	}
+		return (ft_putstr_fd("minishell: command not found\n", 2), 127);
 	if (access(cmd->args[0], X_OK) == 0) // chemin direct absolu ou relatif
-	{
+	{	
 		execve(cmd->args[0], cmd->args, envp);
 		perror("execve");
 		return (126);
@@ -72,8 +69,11 @@ static int	run_builtin(t_main *m, t_cmd_table *cmd)
 }
 
 static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
-		int pipe_fd[2], t_env *env)
+		int pipe_fd[2])
 {
+	t_env 	*env;
+
+	env = m->env;
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, STDIN_FILENO);
@@ -110,7 +110,7 @@ static int	wait_children(pid_t last_pid)
 	return (exit_status);
 }
 
-static int	execute_pipeline(t_main *m, int *pipe_fd, int prev_fd, t_env *env)
+static int	execute_pipeline(t_main *m, int *pipe_fd, int prev_fd)
 {
 	t_cmd_table	*cmd;
 	pid_t		pid;
@@ -125,7 +125,7 @@ static int	execute_pipeline(t_main *m, int *pipe_fd, int prev_fd, t_env *env)
 		if (pid == -1)
 			return (perror("fork"), 1);
 		if (pid == 0)
-			child_process(m, cmd, prev_fd, pipe_fd, env);
+			child_process(m, cmd, prev_fd, pipe_fd);
 		if (prev_fd != -1)
 			close(prev_fd);
 		if (cmd->next)
@@ -148,6 +148,6 @@ int	exec(t_main *m, t_env *env)
 	if (!m->cmd_table->next && is_builtin(m->cmd_table->args[0]))
 		m->last_status = run_builtin(m, m->cmd_table);
 	else
-		m->last_status = execute_pipeline(m, pipe_fd, -1, env);
+		m->last_status = execute_pipeline(m, pipe_fd, -1);
 	return (m->last_status);
 }

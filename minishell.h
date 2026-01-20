@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 12:58:57 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:34:04 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 
 # define PATH_MAX 1024
 
-struct t_token;
-struct t_cmd_table;
+struct	s_token;
+struct	s_cmd_table;
 
 typedef struct s_env
 {
@@ -41,16 +41,11 @@ typedef struct s_env
 
 typedef struct s_main
 {
-	int last_status; 
-	t_token			*token_list;
-	t_cmd_table		*cmd_table;
-	t_env			*env;
-	// char		**env_copy;
-}					t_main;
-// char		**env_copy;
-// env_cpy UTILE ?
-//->fonction static ds main <copy_env_array>
-// pourrait ne pas etre indispensable
+	int			last_status;
+	t_token		*token_list;
+	t_cmd_table	*cmd_table;
+	t_env		*env;
+}	t_main;
 
 // helpers TIM
 char				*ft_strncpy(char *s1, char *s2, size_t n);
@@ -103,6 +98,7 @@ char				*ft_itoa(int n);
 int					ft_isdigit_m(int n);
 long int			ft_atoi(const char *nptr);
 char				**copy_list_to_array(t_env *env);
+int					inc_shlvl(t_env *env);
 // helpers : clean / exit
 void				clean_up(t_main *main, int free_m_shell, int free_env);
 void				free_token_list(t_token **s_list);

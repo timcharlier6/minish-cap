@@ -6,14 +6,14 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:07:19 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 15:00:46 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:18:44 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 
-volatile sig_atomic_t g_signal;
+volatile sig_atomic_t	g_signal;
 
 int	init_main(t_main **main)
 {
@@ -30,33 +30,32 @@ void	signal_handler(int sig)
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line(); // prepares readline for a new line
-    rl_redisplay();
+	rl_redisplay();
 }
 
-void	signal_init()
+void	signal_init(void)
 {
 	g_signal = 0;
 	signal(SIGINT, signal_handler); // SIGINT = CTRL+C (by default)
 	signal(SIGQUIT, SIG_IGN);       // Ctrl+\ ignoré
 }
 
-static int init_envp(char ***envp)
+static int	init_envp(char ***envp)
 {
-	char buf[PATH_MAX];
-	char *cwd;
+	char	buf[PATH_MAX];
+	char	*cwd;
 
 	cwd = getcwd(buf, PATH_MAX);
-	if (!cwd) return 0;
-
-	*envp = ft_calloc(4, sizeof(char*));
-	if (!*envp) return 0;
-
+	if (!cwd)
+		return (0);
+	*envp = ft_calloc(4, sizeof(char *));
+	if (!*envp)
+		return (0);
 	(*envp)[0] = ft_strjoin("PWD=", cwd);
 	(*envp)[1] = ft_strdup("SHLVL=1");
-    (*envp)[2] = ft_strdup("_=/usr/bin/env");
-    (*envp)[3] = NULL;
-
-    return 1;
+	(*envp)[2] = ft_strdup("_=/usr/bin/env");
+	(*envp)[3] = NULL;
+	return (1);
 }
 
 static int	process_env_string(t_env **env_list, char *env_str)
@@ -106,5 +105,7 @@ int	init_env_list(t_env **env_list, char **envp)
 		free_env_list(env_list);
 	if (free_env)
 		free_array(envp);
-	return (status);
+	if (!status)
+		return (status);
+	return (inc_shlvl(*env_list));
 }

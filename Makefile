@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+         #
+#    By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 20:48:27 by csimonne          #+#    #+#              #
-#    Updated: 2026/01/20 12:58:13 by ticharli         ###   ########.fr        #
+#    Updated: 2026/01/20 14:35:40 by csimonne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC = src/main.c  src/exec.c \
 		helpers/token_type_counter.c helpers/skip_word_or_adjacents.c \
 		helpers/ft_calloc.c helpers/ft_strjoin_hub.c \
 		helpers/ft_putstr_fd.c helpers/ft_itoa.c helpers/copy_list_to_array.c \
-		helpers/ft_putendl.c helpers/init_to_zero.c helpers/cd_helpers.c helpers/export_helpers.c helpers/export_helpers2.c \
+		helpers/ft_putendl.c helpers/init_to_zero.c helpers/cd_helpers.c \
+		helpers/export_helpers.c helpers/export_helpers2.c helpers/inc_shlvl.c \
 		helpers/strncmp_hub.c helpers/ft_strcmp.c helpers/ft_isdigit_m.c \
 		src/builtins/echo.c src/builtins/pwd.c src/builtins/cd.c \
 		src/builtins/env.c src/builtins/export.c src/builtins/unset.c \
