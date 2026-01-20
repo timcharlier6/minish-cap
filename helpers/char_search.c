@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:16:06 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 19:22:22 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 19:23:22 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,20 @@ int	char_search_n(char *s, char c)
 int	quote_search(char *s, char quote, char other_quote)
 {
 	int	i;
-	int	y;
 	int	count;
+	int is_in;
 
-	(void)other_quote;
-	i = 0;
-	y = 0;
+	is_in = 0;
 	count = 0;
-	y = ft_strlen(s);
-	while ((s[i]) && i < y)
+	i = 0;
+	while(s[i])
 	{
 		if (s[i] == quote)
-		{
 			count++;
-		}
-		i++;
+		(s[i] == other_quote);
+			
+			
+			
 	}
 	return (count);
 }
