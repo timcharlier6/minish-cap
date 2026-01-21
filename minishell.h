@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 17:17:58 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/21 21:35:53 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <dirent.h>
+# include <signal.h>
+
+extern volatile sig_atomic_t	g_signal;
 
 struct	s_token;
 struct	s_cmd_table;

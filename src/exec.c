@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 16:41:51 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/21 21:26:45 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 	t_env	*env;
 
 	env = m->env;
+	signal_init();
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, STDIN_FILENO);

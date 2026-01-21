@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   inits_and_signals.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:07:19 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 17:26:53 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 21:37:34 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <signal.h>
-
-volatile sig_atomic_t	g_signal;
 
 void	signal_handler(int sig)
 {

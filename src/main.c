@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 15:12:11 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 21:42:39 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <limits.h>
+
+volatile sig_atomic_t	g_signal = 0;
 
 static int	init_main(t_main **main)
 {
@@ -93,6 +95,11 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		input = readline("minishell > ");
+		if (g_signal != 0)
+		{
+			main->last_status = 128 + g_signal;
+			g_signal = 0;
+		}
 		if (!input)
 			exit_w_message();
 		if (filter_input(input))
