@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 14:59:02 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:03:12 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ int	main(int ac, char **av, char **envp)
 	{
 		input = readline("minishell > ");
 		if (!input)
-			exit_w_message();
+		{
+			printf("exit\n");
+			break ;
+		}
 		if (filter_input(input))
 		{
 			add_history(input);

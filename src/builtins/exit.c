@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 17:54:24 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/20 19:36:54 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static int	normal_exit(t_main *m)
 
 	status = m->last_status;
 	clean_up(m, 1, 1);
+	rl_clear_history();
 	exit(status);
 }
 
@@ -50,9 +51,11 @@ int	builtin_exit(char **args, t_main *m)
 		ft_putstr_fd(args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
 		clean_up(m, 1, 1);
+		rl_clear_history();
 		exit(2);
 	}
 	result = ft_atoi(args[1]);
 	clean_up(m, 1, 1);
+	rl_clear_history();
 	exit(result);
 }

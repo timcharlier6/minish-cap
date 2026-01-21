@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 14:59:30 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:07:22 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void				extract_key_value(char *arg, char **key,
 int					update_existing_env(t_env *temp, char *key,
 						char *value, int eq_pos);
 char				*ft_substr(char *s, unsigned int start, size_t len);
+int					is_builtin(char *cmd);
+int					run_builtin(t_main *m, t_cmd_table *cmd);
 // doublon ft_strdup?
 int					ft_strchr(char *s, int c);
 int					is_valid_env_var_key(char *arg);

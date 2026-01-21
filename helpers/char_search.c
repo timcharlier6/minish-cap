@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:16:06 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 14:59:37 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:04:32 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,20 @@ int	check_unclosed_quotes(char *input)
 		i++;
 	}
 	return (single_quote || double_quote);
+}
+
+int	pipe_token_search(t_token *list)
+{
+	int	count;
+
+	count = 0;
+	while (list)
+	{
+		if (list->type == T_PIPE)
+			count++;
+		list = list->next;
+	}
+	return (count);
 }
 
 int	pipe_token_search(t_token *list)
