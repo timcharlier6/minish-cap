@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 15:03:33 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:12:11 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,3 @@ int	main(int ac, char **av, char **envp)
 	clean_up(main, 1, 1);
 	return (rl_clear_history(), 0);
 }
-

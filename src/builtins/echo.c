@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:42:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 14:36:17 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:11:52 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	handle_flag(int *n_flag, char **args, int *i)
 			(*i)++;
 			j = 0;
 		}
-		else 
-			break;
+		else
+			break ;
 	}
 }
 
