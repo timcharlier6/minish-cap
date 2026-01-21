@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_table.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:04:50 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 17:01:10 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 21:13:43 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,11 @@ static int	fill_table(t_token **t_l, t_cmd_table *t, int *n_redirs, int n_args)
 		}
 		else if ((*t_l)->type == T_WORD || (*t_l)->type == T_WORD_ADJ)
 		{
+			if ((*t_l)->value[0] == '\0' && (*t_l)->quotes == QUOTE_NONE)
+			{
+				(*t_l) = (*t_l)->next;
+				continue ;
+			}
 			if (!(is_arg(t, *t_l, n_args++, token_word_be_arg_count((*t_l)))))
 				return (0);
 		}
