@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 19:22:10 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/20 19:33:12 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ int	main(int ac, char **av, char **envp)
 	{
 		input = readline("minishell > ");
 		if (!input)
-			exit_w_message();
+		{
+			printf("exit\n");
+			break ;
+		}
 		if (filter_input(input))
 		{
 			add_history(input);

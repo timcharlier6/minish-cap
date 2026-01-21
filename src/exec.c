@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 18:57:45 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/21 14:13:12 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,6 @@ int	exec_external(t_cmd_table *cmd, char **envp)
 	}
 	ft_putstr_fd("minishell: command not found\n", 2);
 	return (127);
-}
-
-static int	is_builtin(char *cmd)
-{
-	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd,
-			"cd") || !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "export")
-		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "exit"))
-		return (1);
-	return (0);
-}
-
-static int	run_builtin(t_main *m, t_cmd_table *cmd)
-{
-	if (ft_strcmp(cmd->args[0], "echo") == 0)
-		return (my_echo(cmd));
-	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		return (pwd());
-	else if (ft_strcmp(cmd->args[0], "cd") == 0)
-		return (cd(cmd, m->env));
-	else if (ft_strcmp(cmd->args[0], "env") == 0 && !cmd->args[1])
-		return (my_env(m->env));
-	else if (ft_strcmp(cmd->args[0], "export") == 0)
-		return (export(cmd, m->env));
-	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-		return (unset(cmd, m->env));
-	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-	{
-		return (builtin_exit(cmd->args, m));
-	}
-	return (0);
 }
 
 static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
@@ -113,16 +83,16 @@ static int	wait_children(pid_t last_pid)
 /*
 flow:
   - parent:
-      - create two pipes
-      - fork child
-      - write data to pipe1 (write end)
+		- create two pipes
+		- fork child
+		- write data to pipe1 (write end)
   - child:
-      - read data from pipe1 (read end)
-      - process data
-      - write result to pipe2 (write end)
+		- read data from pipe1 (read end)
+		- process data
+		- write result to pipe2 (write end)
   - parent:
-      - read result from pipe2 (read end)
-      - wait for child to exit
+		- read result from pipe2 (read end)
+		- wait for child to exit
 */
 
 static int	execute_pipeline(t_main *m, int *pipe_fd, int prev_fd)
@@ -158,7 +128,7 @@ int	exec(t_main *m, t_env *env)
 	int	pipe_fd[2];
 
 	if (!m || !m->cmd_table || !m->cmd_table->args || !m->cmd_table->args[0]
-		|| !env) // ajout de !envp
+		|| !env)
 		return (0);
 	if (!m->cmd_table->next && is_builtin(m->cmd_table->args[0]))
 		m->last_status = run_builtin(m, m->cmd_table);

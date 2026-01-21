@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+         #
+#    By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 20:48:27 by csimonne          #+#    #+#              #
-#    Updated: 2026/01/20 17:23:31 by csimonne         ###   ########.fr        #
+#    Updated: 2026/01/21 14:18:53 by ticharli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC = src/main.c  src/exec.c \
 		helpers/token_type_counter.c helpers/skip_word_or_adjacents.c \
 		helpers/ft_calloc.c helpers/ft_strjoin_hub.c helpers/join_redir_adj.c \
 		helpers/ft_putstr_fd.c helpers/ft_itoa.c helpers/copy_list_to_array.c \
-		helpers/ft_putendl.c helpers/init_to_zero.c helpers/cd_helpers.c \
+		helpers/ft_putendl.c helpers/init_to_zero.c helpers/cd_helpers.c helpers/exec_helpers.c \
 		helpers/export_helpers.c helpers/export_helpers2.c helpers/inc_shlvl.c \
 		helpers/strncmp_hub.c helpers/ft_strcmp.c helpers/ft_isdigit_m.c \
 		src/builtins/echo.c src/builtins/pwd.c src/builtins/cd.c \
