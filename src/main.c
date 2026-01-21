@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 14:10:06 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 14:59:02 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	parsing_hub(char *input, t_main *m, t_env *env)
 	int	n_commands;
 
 	n_commands = 0;
-	n_commands = char_search_n(input, '|') + 1;
 	m->token_list = tokenisation(input, m->token_list, 0);
 	if (!(m->token_list))
 		return (0);
@@ -46,6 +45,7 @@ static int	parsing_hub(char *input, t_main *m, t_env *env)
 			m->token_list, &m->last_status);
 	if (!m->token_list)
 		return (0);
+	n_commands = pipe_token_search(m->token_list) + 1;
 	m->cmd_table = parsing(m->token_list, n_commands, n_commands, 0);
 	if (!m->cmd_table)
 		return (0);

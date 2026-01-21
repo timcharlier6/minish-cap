@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 19:22:35 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/21 14:59:30 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define PATH_MAX 1024
 
 # include "command_table.h"
 # include "token.h"
@@ -26,7 +27,6 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define PATH_MAX 1024
 
 struct	s_token;
 struct	s_cmd_table;
@@ -81,7 +81,7 @@ int					is_valid_subvar_separator(const char *s, char c);
 int					char_search_len(const char *s, const char c, int start,
 						int w_on);
 int					char_search_len_0(const char *s, const char c, int start);
-int					char_search_n(char *s, char c);
+int					pipe_token_search(t_token *list);
 int					quote_search(char *s, char c, char other_quote);
 int					token_word_be_arg_count(t_token *token_list);
 int					redir_token_count(t_token *t_l, t_tok_type typ1,

@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:16:06 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 14:10:21 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 14:59:37 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,6 @@ int	char_search_len_0(const char *s, const char c, int start)
 	return (0);
 }
 
-// returns 'n' of elements, or 0 if not found
-int	char_search_n(char *s, char c)
-{
-	int	i;
-	int	y;
-	int	count;
-
-	i = 0;
-	y = 0;
-	count = 0;
-	y = ft_strlen(s);
-	while ((s[i]) && i < y)
-	{
-		if (s[i] == c)
-			count++;
-		i++;
-	}
-	return (count);
-}
-
 int	check_unclosed_quotes(char *input)
 {
 	int	i;
@@ -86,4 +66,18 @@ int	check_unclosed_quotes(char *input)
 		i++;
 	}
 	return (single_quote || double_quote);
+}
+
+int	pipe_token_search(t_token *list)
+{
+	int	count;
+
+	count = 0;
+	while (list)
+	{
+		if (list->type == T_PIPE)
+			count++;
+		list = list->next;
+	}
+	return (count);
 }
