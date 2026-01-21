@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:48:34 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 16:55:20 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:36:56 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 static int	ft_isnumber(char *s)
 {
-	while (s && *s)
-	{
-		if ((*s == '+' || *s == '-'))
-			s++;
-	}
+	if ((*s == '+' || *s == '-'))
+		s++;
 	while (s && *s)
 	{
 		if (!(*s >= '0' && *s <= '9'))
@@ -62,5 +59,5 @@ int	builtin_exit(char **args, t_main *m)
 	result = ft_atoi(args[1]);
 	clean_up(m, 1, 1);
 	rl_clear_history();
-	exit(result);
+	exit(result % 256);
 }
