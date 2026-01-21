@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 19:33:12 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/21 14:38:15 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ static int	parsing_hub(char *input, t_main *m, t_env *env)
 		return (0);
 	return (1);
 }
-
-
 
 static int	filter_input(char *input)
 {
