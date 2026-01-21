@@ -6,27 +6,37 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 14:13:12 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:41:51 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	exec_local(t_cmd_table *cmd, char **envp)
+{
+	DIR	*dir;
+
+	dir = opendir(cmd->args[0]);
+	if (dir)
+		return (closedir(dir), errmsg_cmd(cmd->args[0], "Is a directory", 126));
+	if (access(cmd->args[0], F_OK) != 0)
+		return (errmsg_cmd(cmd->args[0], "No such file or directory", 127));
+	if (access(cmd->args[0], X_OK) != 0)
+		return (errmsg_cmd(cmd->args[0], "Permission denied", 126));
+	execve(cmd->args[0], cmd->args, envp);
+	return (perror("execve"), 126);
+}
+
 int	exec_external(t_cmd_table *cmd, char **envp)
 {
 	char	*path;
 
-	path = NULL;
 	if (!envp)
 		return (0);
 	if (!cmd->args || !cmd->args[0])
-		return (ft_putstr_fd("minishell: command not found\n", 2), 127);
-	if (access(cmd->args[0], X_OK) == 0)
-	{
-		execve(cmd->args[0], cmd->args, envp);
-		perror("execve");
-		return (126);
-	}
+		return (errmsg_cmd(NULL, "command not found", 127));
+	if (ft_strchr(cmd->args[0], '/') != -1)
+		return (exec_local(cmd, envp));
 	path = find_path(cmd->args[0], envp);
 	if (path)
 	{
@@ -34,8 +44,7 @@ int	exec_external(t_cmd_table *cmd, char **envp)
 		perror("execve");
 		return (free(path), 126);
 	}
-	ft_putstr_fd("minishell: command not found\n", 2);
-	return (127);
+	return (errmsg_cmd(cmd->args[0], "command not found", 127));
 }
 
 static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
