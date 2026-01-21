@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sub_tokens_init.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 16:38:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 17:47:06 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:18:42 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_sub	*init_sub(char *s, t_sub *sub_t, t_env *env, int c_status)
 	int		watch_i;
 	t_sub	*sub_t_head;
 
-	init_to_zero(4, &i, &watch_i, &sub_t, &sub_t_head);
+	init_to_zero(&i, &watch_i, &sub_t, &sub_t_head);
 	if (s[i] == '\0')
 		return (sub_t = is_empty(sub_t));
 	while (s[i])

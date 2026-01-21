@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 16:04:39 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:17:58 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void				free_array(char **array);
 void				signal_handler(int sig);
 void				signal_init(void);
 int					init_env_list(t_env **env_list, char **envp);
-void				init_to_zero(int count, ...);
+void				init_to_zero(int *i, int *y, t_sub **a, t_sub **b);
 t_sub				*init_sub(char *s, t_sub *sub_t, t_env *env, int c_status);
 // minishell : parsing
 int					check_if_builtin(char *input, int i, int res);
