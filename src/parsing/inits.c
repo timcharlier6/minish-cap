@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:07:19 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/22 16:35:34 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/23 19:46:29 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	init_to_zero(int *i, int *y, t_sub **a, t_sub **b)
 	*b = NULL;
 }
 
-int	init_main(t_main **main)
+int	init_main(t_main **main, int *ac, char ***av)
 {
+	(void)ac;
+	(void)av;
 	signal_init();
 	(*main) = ft_calloc(1, sizeof(t_main));
 	if (!(*main))

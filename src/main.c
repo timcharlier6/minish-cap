@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/22 17:33:42 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/23 20:05:14 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@ static void	readline_error_code(t_main *main)
 	}
 }
 
-static void	new_line_after_message(char *message)
+// cmd_not_found = 1 -> displays cmd not found + message
+void	new_line_message(char *message, int not_found, char *redir)
 {
-	if (message == NULL)
-		printf("%s\n", "Syntax error : please close your quotes.");
-	else
+	if (not_found == 1)
 		printf("command not found : %s\n", message);
+	if (redir != NULL)
+		printf("syntax error near token : %s\n", redir);
+	else
+		printf("%s\n", message);
 	rl_redisplay();
 }
 
@@ -43,8 +46,8 @@ static int	parsing_hub(char *input, t_main *m, t_env *env)
 		return (0);
 	if (!(clean_all_quotes(m->token_list)))
 		return (0);
-	m->token_list = expander(m->token_list, env,
-			m->token_list, &m->last_status);
+	m->token_list = expander(m->token_list, env, m->token_list,
+			&m->last_status);
 	if (!m->token_list)
 		return (0);
 	n_commands = pipe_token_search(m->token_list) + 1;
@@ -54,30 +57,28 @@ static int	parsing_hub(char *input, t_main *m, t_env *env)
 	return (1);
 }
 
-static int	filter_input(char *input)
+static int	filter_input(char *str, int *last_status)
 {
-	if (input[0] == '\0')
+	int	last;
+
+	last = 0;
+	if (str[0] == '\0' || str_is_only_space(str))
 		return (0);
-	if (input[str_has_space(input, 0)] == '|')
+	last = ft_strlen(str) - 1;
+	while (last > 0 && (str[last] == ' ' || (str[last] >= 9
+				&& str[last] <= 13)))
+		last--;
+	if (str[str_has_space(str, 0)] == '|')
+		return (*last_status = 2, new_line_message("syntax error near `|'", 0,
+				0), add_history(str), 0);
+	if (str[last] == '|' || str[last] == '<' || str[last] == '>')
+		return (*last_status = 2,
+			new_line_message("syntax error near token `newline'", 0, 0),
+			add_history(str), 0);
+	if (check_unclosed_quotes(str))
 	{
-		new_line_after_message("syntax error near `|'");
-		return (add_history(input), 0);
-	}
-	if (input[ft_strlen(input) - 1] == '|' || input[ft_strlen(input) - 1] == '<'
-		|| input[ft_strlen(input) - 1] == '>')
-	{
-		new_line_after_message("syntax error near `\\n'");
-		return (add_history(input), 0);
-	}
-	if (str_is_only_space(input))
-	{
-		rl_redisplay();
-		return (0);
-	}
-	if (check_unclosed_quotes(input))
-	{
-		new_line_after_message(NULL);
-		return (add_history(input), 0);
+		new_line_message("Syntax error : please close your quotes.", 0, 0);
+		return (*last_status = 2, add_history(str), 0);
 	}
 	return (1);
 }
@@ -87,9 +88,7 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 	t_main	*main;
 
-	(void)ac;
-	(void)av;
-	if (!init_main(&main) || !init_env_list(&main->env, envp))
+	if (!init_main(&main, &ac, &av) || !init_env_list(&main->env, envp))
 		return (clean_up(main, 1, 1, 0), 1);
 	while (1)
 	{
@@ -97,16 +96,16 @@ int	main(int ac, char **av, char **envp)
 		readline_error_code(main);
 		if (!input)
 			exit_w_message();
-		if (filter_input(input))
+		if (filter_input(input, &main->last_status))
 		{
 			add_history(input);
 			if (!parsing_hub(input, main, main->env))
 				break ;
-			exec(main, main->env);
+			if (check_double_redirs(main, main->token_list))
+				exec(main, main->env);
 		}
 		clean_up(main, 0, 0, 0);
 		free(input);
 	}
-	clean_up(main, 1, 1, 0);
-	return (rl_clear_history(), 0);
+	return (clean_up(main, 1, 1, 0), rl_clear_history(), 0);
 }

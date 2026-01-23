@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:22:05 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/23 17:59:24 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/23 20:10:26 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 
 extern volatile sig_atomic_t	g_signal;
 
-struct s_token;
-struct s_cmd_table;
+struct							s_token;
+struct							s_cmd_table;
 
 typedef struct s_env
 {
@@ -59,8 +59,6 @@ int								ft_memcmp(const void *s1, const void *s2,
 char							*ft_strnstr(char *haystack, char *needle,
 									size_t len);
 void							cd_error(const char *arg);
-
-void							heredoc_warning(t_redir *infile, int line_nbr);
 char							*get_env_val(t_env *env, char *key);
 void							update_env(t_env *env, char *key, char *value);
 int								update_pwds(t_env *env, char *old, char *path);
@@ -120,6 +118,7 @@ int								inc_shlvl(t_env *env);
 int								join_redir_adj(t_token *token_list,
 									t_redir **outfile);
 int								skip_void_arg(t_token **t_l);
+int								check_double_redirs(t_main *main, t_token *l);
 // helpers : clean / exit
 void							clean_up(t_main *main, int free_m_shell,
 									int free_env, int exit_status);
@@ -131,8 +130,10 @@ void							free_temp(char **exp, char **whole,
 									char **before_d, char **both);
 void							exit_w_message(void);
 void							free_array(char **array);
+void							new_line_message(char *message,
+									int not_found, char *redir);
 // initialisations
-int								init_main(t_main **main);
+int								init_main(t_main **main, int *ac, char ***av);
 int								init_env_list(t_env **env_list, char **envp);
 void							init_to_zero(int *i, int *y, t_sub **a,
 									t_sub **b);
@@ -154,11 +155,11 @@ t_cmd_table						*parsing(t_token *tlist, int n_cmd, int n_cmdcp,
 int								clean_all_quotes(t_token *list);
 int								errmsg_cmd(char *command, char *error_message,
 									int error_nb);
+
+void							double_redir_error(t_main *main, char *token);
 void							free_ptr(void *ptr);
 t_token							*expander(t_token *tlist, t_env *env,
 									t_token *head, int *c_status);
-t_token							*expander(t_token *tlist, t_env *env,
-									t_token *head, int *c_stat);
 // builtins
 int								my_echo(t_cmd_table *cmd);
 int								pwd(void);
@@ -174,12 +175,10 @@ char							*find_path(char *cmd, char **envp);
 int								handle_redirections(t_cmd_table *cmd,
 									t_env *env, int status);
 
-int								read_heredoc_lines(t_redir *infile, t_env *env,
-									int status, int *pipe_write_fd);
-int								handle_heredoc(t_redir *infile, t_env *env,
-									int status);
-char							*expand_heredoc_line(char *line, t_env *env,
-									int status);
+									
 
-char							*process_line(char *line, t_redir *infile, t_env *env, int status);
+void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
+		int pipe_fd[2]);
+int	exec_local(t_cmd_table *cmd, char **envp);
+int	exec_external(t_cmd_table *cmd, char **envp);
 #endif

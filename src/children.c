@@ -5,15 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ticharli <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/23 16:54:59 by ticharli          #+#    #+#             */
-/*   Updated: 2026/01/23 16:55:04 by ticharli         ###   ########.fr       */
+/*   Created: 2026/01/23 20:10:36 by ticharli          #+#    #+#             */
+/*   Updated: 2026/01/23 20:10:46 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// ajout de m->cmd au lieu de juste cmd, afin de pouvoir free ds child
-static int	exec_local(t_cmd_table *cmd, char **envp)
+// ajojut de m->cmd au lieu de juste cmd, afin de pouvoir free ds child
+int	exec_local(t_cmd_table *cmd, char **envp)
 {
 	DIR	*dir;
 

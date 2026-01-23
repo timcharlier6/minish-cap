@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_search.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:16:06 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 15:04:52 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/23 20:04:39 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,31 @@ int	pipe_token_search(t_token *list)
 		list = list->next;
 	}
 	return (count);
+}
+
+int	check_double_redirs(t_main *main, t_token *l)
+{
+	while (l)
+	{
+		if (l->type == T_REDIR_IN || l->type == T_REDIR_OUT
+			|| l->type == T_REDIR_APPEND || l->type == T_HEREDOC)
+		{
+			if (l->next && (l->next->type != T_WORD
+					&& l->next->type != T_WORD_ADJ))
+			{
+				double_redir_error(main, l->next->value);
+				return (0);
+			}
+		}
+		if (l->type == T_PIPE)
+		{
+			if (l->next && (l->next->type == T_PIPE))
+			{
+				double_redir_error(main, l->next->value);
+				return (0);
+			}
+		}
+		l = l->next;
+	}
+	return (1);
 }

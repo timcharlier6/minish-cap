@@ -6,7 +6,7 @@
 /*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 17:20:29 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/23 17:53:21 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/23 20:04:21 by ticharli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,12 @@ void	errmsg(char *errmsg, char *detail, int quotes)
 		msg = join_strs(msg, "'");
 	ft_putendl_fd(msg, STDERR_FILENO);
 	free_ptr(msg);
+}
+
+void	double_redir_error(t_main *main, char *token)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(token, 2);
+	ft_putendl_fd("'", 2);
+	main->last_status = 2;
 }
