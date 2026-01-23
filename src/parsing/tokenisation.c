@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:52:58 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 17:47:29 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/23 15:34:52 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	token_is_word(t_token **tlist, char *s, int start, int quote_type)
 	return (start + len);
 }
 
+//ADJ = 1 argument, multiple token definitions.
 t_token	*tokenisation(char *input, t_token *tlist, int i)
 {
 	tlist = ft_calloc(1, sizeof(*tlist));

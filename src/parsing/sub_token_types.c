@@ -6,7 +6,7 @@
 /*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 16:38:28 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/20 17:41:17 by csimonne         ###   ########.fr       */
+/*   Updated: 2026/01/23 15:37:42 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,6 @@ int	is_text(char *str, t_sub *sub_t, int len)
 	sub_t->subtok_type = ST_TEXT;
 	return (len);
 }
-
-// int	is_solo_dollar(t_sub *sub_t)
-// {
-// 	sub_t->value = ft_strdup("$");
-// 	if (!sub_t->value)
-// 		return (0);
-// 	sub_t->subtok_type = ST_TEXT;
-// 	return (1);
-// }
 
 int	is_status(t_sub *sub_t, int current_status)
 {

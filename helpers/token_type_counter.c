@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_type_counter.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 17:22:54 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 21:13:42 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/23 17:17:41 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,8 @@ int	token_word_be_arg_count(t_token *token_list)
 	{
 		if (token_list->type == T_WORD)
 		{
-			if (token_list->value[0] == '\0' && token_list->quotes == QUOTE_NONE)
-			{
-				token_list = token_list->next;
+			if (skip_void_arg(&token_list))
 				continue ;
-			}
 			count++;
 			token_list = token_list->next;
 		}
@@ -33,11 +30,8 @@ int	token_word_be_arg_count(t_token *token_list)
 			return (count);
 		else if (token_list->type == T_WORD_ADJ)
 		{
-			if (token_list->value[0] == '\0' && token_list->quotes == QUOTE_NONE)
-			{
-				token_list = token_list->next;
+			if (skip_void_arg(&token_list))
 				continue ;
-			}
 			token_list = skip_word_or_adjacents(token_list, 0);
 			count++;
 		}

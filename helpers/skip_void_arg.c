@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_to_zero.c                                     :+:      :+:    :+:   */
+/*   skip_void_arg.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/06 15:04:50 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 17:18:07 by ticharli         ###   ########.fr       */
+/*   Created: 2026/01/23 16:30:05 by csimonne          #+#    #+#             */
+/*   Updated: 2026/01/23 16:41:41 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_to_zero(int *i, int *y, t_sub **a, t_sub **b)
+int	skip_void_arg(t_token **t_l)
 {
-	*i = 0;
-	*y = 0;
-	*a = NULL;
-	*b = NULL;
+	if ((*t_l)->value[0] == '\0' && (*t_l)->quotes == QUOTE_NONE)
+	{
+		(*t_l) = (*t_l)->next;
+		return (1);
+	}
+	return (0);
 }

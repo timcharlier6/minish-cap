@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inits_and_signals.c                                :+:      :+:    :+:   */
+/*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:07:19 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 21:37:34 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/22 16:35:34 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handler(int sig)
+void	init_to_zero(int *i, int *y, t_sub **a, t_sub **b)
 {
-	g_signal = sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	*i = 0;
+	*y = 0;
+	*a = NULL;
+	*b = NULL;
 }
 
-void	signal_init(void)
+int	init_main(t_main **main)
 {
-	g_signal = 0;
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal_init();
+	(*main) = ft_calloc(1, sizeof(t_main));
+	if (!(*main))
+		return (0);
+	(*main)->last_status = 0;
+	return (1);
 }
 
 static int	init_envp(char ***envp)

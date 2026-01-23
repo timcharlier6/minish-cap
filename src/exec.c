@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 17:39:25 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 21:26:45 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/22 18:36:54 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//ajojut de m->cmd au lieu de juste cmd, afin de pouvoir free ds child
 static int	exec_local(t_cmd_table *cmd, char **envp)
 {
-	DIR	*dir;
+	DIR			*dir;
 
 	dir = opendir(cmd->args[0]);
 	if (dir)
@@ -27,33 +28,44 @@ static int	exec_local(t_cmd_table *cmd, char **envp)
 	return (perror("execve"), 126);
 }
 
-int	exec_external(t_cmd_table *cmd, char **envp)
+int	exec_external(t_cmd_table	*cmd, char **envp)
 {
-	char	*path;
+	char		*path;
+	int			return_status;
 
+	return_status = 0;
 	if (!envp)
 		return (0);
 	if (!cmd->args || !cmd->args[0])
-		return (errmsg_cmd(NULL, "command not found", 127));
+	{
+		return_status = errmsg_cmd(NULL, "command not found", 127);
+		return (free_array(envp), return_status);
+	}
 	if (ft_strchr(cmd->args[0], '/') != -1)
-		return (exec_local(cmd, envp));
+	{
+		return_status = exec_local(cmd, envp);
+		return (free_array(envp), return_status);
+	}
 	path = find_path(cmd->args[0], envp);
 	if (path)
 	{
 		execve(path, cmd->args, envp);
 		perror("execve");
-		return (free(path), 126);
+		return (free_array(envp), free(path), 126);
 	}
-	return (errmsg_cmd(cmd->args[0], "command not found", 127));
+	return_status = errmsg_cmd(cmd->args[0], "command not found", 127);
+	return (free_array(envp), return_status);
 }
 
 static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 		int pipe_fd[2])
 {
 	t_env	*env;
+	int		exit_status;
 
+	exit_status = 0;
 	env = m->env;
-	signal_init();
+	signal_init_to_default();
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, STDIN_FILENO);
@@ -66,13 +78,16 @@ static void	child_process(t_main *m, t_cmd_table *cmd, int prev_fd,
 		close(pipe_fd[1]);
 	}
 	if (handle_redirections(cmd, env, m->last_status) != 0)
-		exit(1);
+		clean_up(m, 1, 1, 1);
 	if (is_builtin(cmd->args[0]) != 0)
-		exit(run_builtin(m, cmd));
+		exit_status = (run_builtin(m, cmd));
 	else
-		exit(exec_external(cmd, copy_list_to_array(env)));
+		exit_status = (exec_external(cmd, copy_list_to_array(env)));
+	clean_up(m, 1, 1, 0);
+	exit(exit_status);
 }
 
+// line 88 : status de l'enfant +CTRL-C
 static int	wait_children(pid_t last_pid)
 {
 	int	status;
@@ -82,6 +97,14 @@ static int	wait_children(pid_t last_pid)
 	if (last_pid > 0)
 	{
 		waitpid(last_pid, &status, 0);
+		if (WIFSIGNALED(status))
+		{
+			exit_status = 128 + WTERMSIG(status);
+			if (WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
+			else if (WTERMSIG(status) == SIGQUIT)
+				write(1, "Quit (core dumped)\n", 19);
+		}
 		if (WIFEXITED(status))
 			exit_status = WEXITSTATUS(status);
 	}
@@ -105,34 +128,35 @@ flow:
 		- wait for child to exit
 */
 
+//signal_ignore ->desactivation des signaux
 static int	execute_pipeline(t_main *m, int *pipe_fd, int prev_fd)
 {
 	t_cmd_table	*cmd;
 	pid_t		pid;
 
 	cmd = m->cmd_table;
-	pid = -1;
 	while (cmd)
 	{
-		if (cmd->next && pipe(pipe_fd) == -1)
-			return (perror("pipe"), 1);
+		if (cmd->next) // S'il y a une commande suivante, on crée un pipe
+			pipe(pipe_fd);
+		signal_ignore();
 		pid = fork();
-		if (pid == -1)
-			return (perror("fork"), 1);
 		if (pid == 0)
 			child_process(m, cmd, prev_fd, pipe_fd);
+		// PARENT : On ferme les FDs dont on n'a plus besoin
 		if (prev_fd != -1)
-			close(prev_fd);
+			close(prev_fd); // Ferme la lecture de la commande précédente
 		if (cmd->next)
 		{
-			close(pipe_fd[1]);
-			prev_fd = pipe_fd[0];
+			close(pipe_fd[1]); // Ferme l'écriture du pipe actuel
+			prev_fd = pipe_fd[0]; // Garde la lecture pour la commande suivante
 		}
 		cmd = cmd->next;
 	}
 	return (wait_children(pid));
 }
 
+//signal_init -> retablissement de la config SIGNAL d origine
 int	exec(t_main *m, t_env *env)
 {
 	int	pipe_fd[2];
@@ -143,6 +167,9 @@ int	exec(t_main *m, t_env *env)
 	if (!m->cmd_table->next && is_builtin(m->cmd_table->args[0]))
 		m->last_status = run_builtin(m, m->cmd_table);
 	else
+	{
 		m->last_status = execute_pipeline(m, pipe_fd, -1);
+		signal_init();
+	}
 	return (m->last_status);
 }

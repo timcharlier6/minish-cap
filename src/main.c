@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ticharli <ticharli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csimonne <csimonne@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 14:31:53 by csimonne          #+#    #+#             */
-/*   Updated: 2026/01/21 21:42:39 by ticharli         ###   ########.fr       */
+/*   Updated: 2026/01/22 17:33:42 by csimonne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-static int	init_main(t_main **main)
+static void	readline_error_code(t_main *main)
 {
-	(*main) = ft_calloc(1, sizeof(t_main));
-	if (!(*main))
-		return (0);
-	(*main)->last_status = 0;
-	return (1);
+	if (g_signal != 0)
+	{
+		main->last_status = 128 + g_signal;
+		g_signal = 0;
+	}
 }
 
 static void	new_line_after_message(char *message)
@@ -89,17 +89,12 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	signal_init();
 	if (!init_main(&main) || !init_env_list(&main->env, envp))
-		return (clean_up(main, 1, 1), 1);
+		return (clean_up(main, 1, 1, 0), 1);
 	while (1)
 	{
 		input = readline("minishell > ");
-		if (g_signal != 0)
-		{
-			main->last_status = 128 + g_signal;
-			g_signal = 0;
-		}
+		readline_error_code(main);
 		if (!input)
 			exit_w_message();
 		if (filter_input(input))
@@ -109,9 +104,9 @@ int	main(int ac, char **av, char **envp)
 				break ;
 			exec(main, main->env);
 		}
-		clean_up(main, 0, 0);
+		clean_up(main, 0, 0, 0);
 		free(input);
 	}
-	clean_up(main, 1, 1);
+	clean_up(main, 1, 1, 0);
 	return (rl_clear_history(), 0);
 }
